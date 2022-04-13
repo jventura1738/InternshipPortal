@@ -107,6 +107,7 @@ def edit_listing(id: int) -> None:
         listing.duration = data['duration']
         listing.app_open = data['app_open']
         listing.app_close = data['app_close']
+        listing.status = data['status']
 
         # Update the database.
         db.session.commit()
