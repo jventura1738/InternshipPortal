@@ -312,3 +312,9 @@ export default {
   },
 };
 </script>
+<style>
+      input:checked ~ .dot {
+      transform: translateX(100%);
+      background-color: #48bb78;
+    }
+</style>
