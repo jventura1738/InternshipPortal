@@ -57,6 +57,7 @@ import ContactInboxModule from "./ContactInbox.vue";
 import Vue3ChartJs from "@j-t-mcc/vue3-chartjs";
 import zoomPlugin from "chartjs-plugin-zoom";
 import dataLabels from "chartjs-plugin-datalabels";
+import { onMounted, ref } from "vue"
 
 Vue3ChartJs.registerGlobalPlugins([zoomPlugin]);
 
@@ -68,6 +69,26 @@ export default {
     ContactInboxModule,
   },
   setup() {
+
+    const all_listings = ref([])
+    const all_ids = ref([])
+    onMounted(async () => {
+      let result = await fetch(
+        `${process.env.SERVER_URL}/get-listings/active`
+      ).catch((error) => {
+        console.log(error);
+      });
+      let listings = await result.json();
+      let arrOfObjects = Object.entries(listings).map((listing) => listing[1]);
+      all_listings.value = arrOfObjects;
+      for(let i = 0; i < arrOfObjects.length; i++) {
+        all_ids.value.push(arrOfObjects[i].listing.id);
+      }
+      console.log(JSON.parse(JSON.stringify(all_ids.value)));
+      console.log(all_listings.value[1].listing.app_open);
+      
+    });
+
     const viewsChart = {
       id: "doughnut",
       type: "doughnut",
