@@ -27,7 +27,7 @@ def get_listing_stats(listing_id: int):
     # Get the listing:
     response = dict()
 
-    listing_stats = ListingsStatisticsModel.query.filter_by(id=listing_id)\
+    listing_stats = ListingsStatisticsModel.query.filter_by(listing_id=listing_id)\
         .first()
 
     # If the listing doesn't exist, return 404:
