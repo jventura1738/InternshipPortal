@@ -57,7 +57,7 @@ import ContactInboxModule from "./ContactInbox.vue";
 import Vue3ChartJs from "@j-t-mcc/vue3-chartjs";
 import zoomPlugin from "chartjs-plugin-zoom";
 import dataLabels from "chartjs-plugin-datalabels";
-import { onMounted, ref } from "vue"
+import { onMounted, ref, toRaw } from "vue"
 
 Vue3ChartJs.registerGlobalPlugins([zoomPlugin]);
 
@@ -71,7 +71,9 @@ export default {
   setup() {
 
     const all_listings = ref([])
+    const all_positions = ref([])
     const all_ids = ref([])
+    const statistics = ref([])
     onMounted(async () => {
       let result = await fetch(
         `${process.env.SERVER_URL}/get-listings/active`
@@ -84,22 +86,35 @@ export default {
       for(let i = 0; i < arrOfObjects.length; i++) {
         all_ids.value.push(arrOfObjects[i].listing.id);
       }
-      console.log(JSON.parse(JSON.stringify(all_ids.value)));
+      let arr = JSON.parse(JSON.stringify(all_ids.value));
+      console.log(arr)
       console.log(all_listings.value[1].listing.app_open);
-      
+      for(let i = 0; i < arr.length; i++) {
+        let result2 = await fetch(
+          `${process.env.SERVER_URL}/get-statistics/${arr[i]}`
+        ).catch((error) => {
+          console.log(error);
+        });
+        let response = await result2.json();
+        statistics.value.push(Object.entries(response).map((response) => response[1])[1])
+        //console.log(Object.entries(response).map((response) => response[1]))
+      }
+      console.log(JSON.parse(JSON.stringify(statistics.value)))
+      for(let i = 0; i < arrOfObjects.length; i++) {
+        console.log(all_listings.value[i].listing.position)
+        all_positions.value.push(all_listings.value[i].listing.position)
+      }
+      //This is the data ready to be used for the chart
+      console.log(toRaw(all_positions.value))
+      console.log(toRaw(statistics.value))
     });
 
     const viewsChart = {
       id: "doughnut",
       type: "doughnut",
       data: {
-        labels: [
-          "Software Engineering",
-          "Machine Learning",
-          "Data Science",
-          "Robotics",
-          "Cyber Security",
-        ],
+        //but in the data object it isnt recognized as an array of strings
+        labels: toRaw(all_positions.value),
         datasets: [
           {
             backgroundColor: [
@@ -107,9 +122,9 @@ export default {
               "#E46651",
               "#00D8FF",
               "#DD1B16",
-              "#fdfd96",
             ],
-            data: [10, 9, 5, 3, 2],
+            //same with ints
+            data: toRaw(statistics.value),
           },
         ],
       },
