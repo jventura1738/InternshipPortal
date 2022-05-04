@@ -74,6 +74,7 @@ export default {
     const all_positions = ref([])
     const all_ids = ref([])
     const statistics = ref([])
+    const all_companies = ref([])
     onMounted(async () => {
       let result = await fetch(
         `${process.env.SERVER_URL}/get-listings/active`
@@ -88,7 +89,13 @@ export default {
       }
       let arr = JSON.parse(JSON.stringify(all_ids.value));
       console.log(arr)
-      console.log(all_listings.value[1].listing.app_open);
+      for(let i = 0; i < arrOfObjects.length; i++) {
+        all_companies.value.push(all_listings.value[i].client);
+      }
+      let occurrences = toRaw(all_companies.value).reduce(function (acc, curr) {
+        return acc[curr] ? ++acc[curr] : acc[curr] = 1, acc
+      }, {});
+      //I LEFT OFF HERE
       for(let i = 0; i < arr.length; i++) {
         let result2 = await fetch(
           `${process.env.SERVER_URL}/get-statistics/${arr[i]}`
@@ -104,17 +111,18 @@ export default {
         console.log(all_listings.value[i].listing.position)
         all_positions.value.push(all_listings.value[i].listing.position)
       }
-      //This is the data ready to be used for the chart
-      console.log(toRaw(all_positions.value))
-      console.log(toRaw(statistics.value))
+      console.log(Object.keys(toRaw(occurrences)));
     });
-
+    let temp2 = toRaw(all_positions.value)
+    let temp1 = toRaw(statistics.value)
+    let temp3 = Object.keys(toRaw(occurrences))
+    let temp4 = Object.values(toRaw(occurrences))
     const viewsChart = {
       id: "doughnut",
       type: "doughnut",
       data: {
         //but in the data object it isnt recognized as an array of strings
-        labels: toRaw(all_positions.value),
+        labels: temp2,
         datasets: [
           {
             backgroundColor: [
@@ -124,7 +132,7 @@ export default {
               "#DD1B16",
             ],
             //same with ints
-            data: toRaw(statistics.value),
+            data: temp1,
           },
         ],
       },
@@ -133,23 +141,15 @@ export default {
       id: "doughnut",
       type: "doughnut",
       data: {
-        labels: [
-          "Software Engineering",
-          "Machine Learning",
-          "Data Science",
-          "Robotics",
-          "Cyber Security",
-        ],
+        labels: [],
         datasets: [
           {
             backgroundColor: [
               "#E46651",
               "#00D8FF",
               "#41B883",
-              "#fdfd96",
-              "#DD1B16",
             ],
-            data: [7, 3, 10, 2, 6],
+            data: [],
           },
         ],
       },
