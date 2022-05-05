@@ -9,7 +9,7 @@
             <div class="mx-auto my-auto py-4 h-1/2 w-3/4">
               Views by Job Type
               <div class="h-1/2 w-1/2 mx-auto">
-                <vue3-chart-js
+                <vue3-chart-js v-if="loaded" 
                   :id="viewsChart.id"
                   :type="viewsChart.type"
                   :data="viewsChart.data"
@@ -21,7 +21,7 @@
             <div class="mx-auto my-auto py-4 h-1/2 w-3/4">
               Listings by Job Type
               <div class="h-1/2 w-1/2 mx-auto">
-                <vue3-chart-js
+                <vue3-chart-js v-if="loaded" 
                   :id="listingsChart.id"
                   :type="listingsChart.type"
                   :data="listingsChart.data"
@@ -37,7 +37,7 @@
           <div class="my-auto center flex-wrap">
             Site Vists and New Listings
             <div class="mx-auto my-auto py-4 h-1/2 w-3/4">
-              <vue3-chart-js
+              <vue3-chart-js v-if="loaded" 
                 :id="lineChart.id"
                 :type="lineChart.type"
                 :data="lineChart.data"
@@ -67,9 +67,12 @@ export default {
     Vue3ChartJs,
     PendingListingModule,
     ContactInboxModule,
+  data: () => ({
+    loaded: false,
+  })
   },
   setup() {
-
+    const loaded =  ref(false);
     const all_listings = ref([])
     const all_positions = ref([])
     const all_ids = ref([])
@@ -117,12 +120,13 @@ export default {
         stats_three.value.push(Object.values(toRaw(occurrences))[j])
       }
       console.log(Object.keys(toRaw(occurrences)));
+      loaded.value = true
     });
     let temp2 = toRaw(all_positions.value)
     let temp1 = toRaw(statistics.value)
     let comps = toRaw(stats_two.value)
     let comps_listings = toRaw(stats_three.value)
-
+    
     const viewsChart = {
       id: "doughnut",
       type: "doughnut",
@@ -233,7 +237,6 @@ export default {
         },
       },
     };
-
     const beforeRenderLogic = (event) => {
       //...
       //if(a === b) {
@@ -246,6 +249,7 @@ export default {
       listingsChart,
       lineChart,
       beforeRenderLogic,
+      loaded,
     };
   },
 };
