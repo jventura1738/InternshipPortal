@@ -75,6 +75,8 @@ export default {
     const all_ids = ref([])
     const statistics = ref([])
     const all_companies = ref([])
+    const stats_two = ref([])
+    const stats_three = ref([])
     onMounted(async () => {
       let result = await fetch(
         `${process.env.SERVER_URL}/get-listings/active`
@@ -95,7 +97,6 @@ export default {
       let occurrences = toRaw(all_companies.value).reduce(function (acc, curr) {
         return acc[curr] ? ++acc[curr] : acc[curr] = 1, acc
       }, {});
-      //I LEFT OFF HERE
       for(let i = 0; i < arr.length; i++) {
         let result2 = await fetch(
           `${process.env.SERVER_URL}/get-statistics/${arr[i]}`
@@ -111,12 +112,17 @@ export default {
         console.log(all_listings.value[i].listing.position)
         all_positions.value.push(all_listings.value[i].listing.position)
       }
+      for(let j = 0; j < (Object.keys(toRaw(occurrences)).length); j++) {
+        stats_two.value.push(Object.keys(toRaw(occurrences))[j])
+        stats_three.value.push(Object.values(toRaw(occurrences))[j])
+      }
       console.log(Object.keys(toRaw(occurrences)));
     });
     let temp2 = toRaw(all_positions.value)
     let temp1 = toRaw(statistics.value)
-    let temp3 = Object.keys(toRaw(occurrences))
-    let temp4 = Object.values(toRaw(occurrences))
+    let comps = toRaw(stats_two.value)
+    let comps_listings = toRaw(stats_three.value)
+
     const viewsChart = {
       id: "doughnut",
       type: "doughnut",
@@ -141,7 +147,7 @@ export default {
       id: "doughnut",
       type: "doughnut",
       data: {
-        labels: [],
+        labels: comps,
         datasets: [
           {
             backgroundColor: [
@@ -149,7 +155,7 @@ export default {
               "#00D8FF",
               "#41B883",
             ],
-            data: [],
+            data: comps_listings,
           },
         ],
       },
