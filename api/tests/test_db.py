@@ -18,6 +18,8 @@ from testing_data import hash, usersInfo, clientsInfo, listingsInfo
 # We will need literally everything from models:
 from api.models import db, UsersModel, ClientsModel, ListingsModel
 
+from conftest import db_reset
+
 
 # -----------------------------------------------------------------
 #                        UsersModel Tests
@@ -42,8 +44,9 @@ def test_users_model_create():
     '''
     This test checks that the UsersModel can be created.
     '''
+    db_reset()
     # Create users in database and query them:
-    for userInfo in usersInfo[1:]:
+    for userInfo in usersInfo:
         add_user_to_database(userInfo)
 
     for userInfo in usersInfo:
@@ -71,6 +74,9 @@ def test_users_model_update():
     Assumes that the database is already populated.
     Relies on 'joejoejoe' being in the database.
     '''
+    db_reset()
+    # Add joejoejoe to the database:
+    add_user_to_database(usersInfo[2])
 
     # Grab the user to be updated
     user = UsersModel.query.filter_by(username='joejoejoe').first()
@@ -108,6 +114,7 @@ def test_clients_model_create(client):
     '''
     This test checks that the ClientsModel can be created.
     '''
+    db_reset()
     # Create clients in database and query them:
     for clientInfo in clientsInfo:
         add_client_to_database(clientInfo)
@@ -151,6 +158,12 @@ def test_listings_model_create():
     '''
     This test checks that the ListingsModel can be created.
     '''
+    db_reset()
+
+    # Create clients in database and query them:
+    for clientInfo in clientsInfo:
+        add_client_to_database(clientInfo)
+
     # Create listings in database and query them:
     for listingInfo in listingsInfo:
         add_listing_to_database(listingInfo)

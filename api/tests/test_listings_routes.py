@@ -9,10 +9,37 @@ OR
 '''
 
 # Imports for database:
-# from api.models import db, ClientsModel, ListingsModel
 from api.constants import OK, BAD_REQUEST, NOT_FOUND
 
-from testing_data import listingsToSubmit
+# Imports for database:
+from api.models import db, ListingsModel, ClientsModel
+from testing_data import listingsToSubmit, clientsInfo, listingsInfo
+from conftest import db_reset
+
+
+# Add a listing to the database:
+def add_listing_to_database(listing):
+    '''
+    This helper function to add a listing to the database.
+    '''
+    listing = ListingsModel(**listing)
+    db.session.add(listing)
+    db.session.commit()
+
+
+# Add a client to the database:
+def add_client_to_database(client):
+    '''
+    This helper function to add a client to the database.
+    '''
+    client = ClientsModel(**client)
+    db.session.add(client)
+    db.session.commit()
+
+
+# -----------------------------------------------------------------
+#                        ListingsModel Tests
+# -----------------------------------------------------------------
 
 
 # Test route to insert a listing:
@@ -23,6 +50,7 @@ def test_listing_submit(client):
     Route:
         /listing-submit
     '''
+    db_reset()
     # Test that this route works correctly:
     # ------------------------------ TEST 1 ------------------------------
     for listingToSubmit in listingsToSubmit:
@@ -38,6 +66,15 @@ def test_get_listings_bystatus(client):
     Route:
         /get-listings/<status>
     '''
+    db_reset()
+    # Create clients in database and query them:
+    for clientInfo in clientsInfo:
+        add_client_to_database(clientInfo)
+
+    # Create listings in database and query them:
+    for listingInfo in listingsInfo:
+        add_listing_to_database(listingInfo)
+
     # Test that this route works correctly:
     # ------------------------------ TEST 1 ------------------------------
     invalid_get1 = client.get('/get-listings/joe')
@@ -95,13 +132,23 @@ def test_get_listings_bystatus(client):
         assert 'TEST2' in listing['position'], 'Pending listings failed.'
 
 
-def test_get_listings_byid(client):
+# Test route to get listings by id:
+def test_get_listing_byid(client):
     '''
     This test checks that the listings by id route works correctly.
 
     Route:
         /get-listings/<id>
     '''
+    db_reset()
+    # Create clients in database and query them:
+    for clientInfo in clientsInfo:
+        add_client_to_database(clientInfo)
+
+    # Create listings in database and query them:
+    for listingInfo in listingsInfo:
+        add_listing_to_database(listingInfo)
+
     # Test that this route works correctly:
     # ------------------------------ TEST 1 ------------------------------
     invalid_get1 = client.get('/get-listings/joe')
@@ -122,19 +169,4 @@ def test_get_listings_byid(client):
     valid_get2 = client.get('/get-listing/2')
     assert valid_get2.status_code == OK, 'Valid id failed.'
     assert 'TEST2' in valid_get2.get_json()['listing']['position'],\
-        'Valid id incorrect.'
-
-    valid_get3 = client.get('/get-listing/3')
-    assert valid_get3.status_code == OK, 'Valid id failed.'
-    assert 'TEST3' in valid_get3.get_json()['listing']['position'],\
-        'Valid id incorrect.'
-
-    valid_get4 = client.get('/get-listing/4')
-    assert valid_get4.status_code == OK, 'Valid id failed.'
-    assert 'TEST2' in valid_get4.get_json()['listing']['position'],\
-        'Valid id incorrect.'
-
-    valid_get5 = client.get('/get-listing/5')
-    assert valid_get5.status_code == OK, 'Valid id failed.'
-    assert 'TEST2' in valid_get5.get_json()['listing']['position'],\
         'Valid id incorrect.'
