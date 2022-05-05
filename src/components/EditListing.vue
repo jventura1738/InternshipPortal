@@ -203,10 +203,37 @@ export default {
 
     function formatDate(dateToFormat) {
       if (dateToFormat != null) {
-        let l = dateToFormat.split("/");
-        return l[1] + "/" + l[0] + "/" + l[2];
+        if (dateToFormat.includes("-")) {
+          let l = dateToFormat.split("-");
+          if (l[0].length == 4) {
+            dateToReturn = dateToFormat;
+          } else {
+            if (l[0] === "undefined" && l[l.length - 1] === "undefined") {
+              let year = l[1];
+              let month = l[2];
+              let day = l[3];
+              dateToReturn = year + "-" + month + "-" + day;
+            } else {
+              dateToReturn = l[2] + "-" + l[0] + "-" + l[1];
+            }
+          }
+        } else if (dateToFormat.includes("/")) {
+          let l = dateToFormat.split("/");
+          if (l[0].length == 4) {
+            dateToReturn = dateToFormat;
+          } else {
+            if (l[0] === "undefined" && l[l.length - 1] === "undefined") {
+              let year = l[1];
+              let month = l[2];
+              let day = l[3];
+              dateToReturn = year + "-" + month + "-" + day;
+            } else {
+              dateToReturn = l[2] + "-" + l[0] + "-" + l[1];
+            }
+          }
+        }
       }
-      return "01/01/2000";
+      return dateToReturn;
     }
 
     onMounted(async () => {
@@ -241,8 +268,11 @@ export default {
       app_open.value = formatDate(l.app_open);
       app_close.value = formatDate(l.app_close);
       su_courses.value = all_courses.courses;
-      pending.value = l.status;
-      status.value = l.status;
+      tags_on_listing.value = listing.tags;
+      courses_on_listing.value = listing.courses;
+      console.log(tags_on_listing.value);
+      console.log(courses_on_listing.value);
+      status.value = l.status == "active" ? true : false;
     });
     async function set_active(){
       if (pending.value == "pending"){
@@ -265,7 +295,10 @@ export default {
         duration: duration.value,
         app_open: app_open.value,
         app_close: app_close.value,
-        status: pending.value,
+        su_courses: courses_on_listing.value,
+        tags: tags_on_listing.value,
+        app_link: app_link.value,
+        status: status.value == true ? "active" : "inactive",
       };
       await fetch(`${process.env.SERVER_URL}/admin/edit-listing/${id.value}`, {
         method: "PUT",
@@ -305,8 +338,8 @@ export default {
       show_modal,
       modal_title,
       modal_message,
-      status,  
-      set_active,
+      tags_on_listing,
+      courses_on_listing,
       updateListing,
     };
   },
