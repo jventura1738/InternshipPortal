@@ -34,11 +34,19 @@ load_dotenv(dotenv_path)
 
 
 # Creates app:
-def create_app():
+def create_app(testing: bool = False) -> Flask:
     """
     This is the function for creating the flask app along with
     all of the configurations and blueprints.
     """
+    # Gather environment variables:
+    myusername = os.environ.get("DB_USERNAME")
+    mypassword = os.environ.get("DB_PASSWORD")
+    myaddress = os.environ.get("DB_ADDRESS")
+    myport = os.environ.get("DB_PORT")
+    mydbname = os.environ.get("DB_DBNAME")
+
+    # CREATE THE APP:
     app = Flask(__name__,
                 static_folder='../static',
                 template_folder='../templates')
@@ -46,15 +54,7 @@ def create_app():
     # Initial configurations:
     CORS(app)
     app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
-
-    # How long do we want sessions to last, 30min? 1hr?
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
-
-    myusername = os.environ.get("DB_USERNAME")
-    mypassword = os.environ.get("DB_PASSWORD")
-    myaddress = os.environ.get("DB_ADDRESS")
-    myport = os.environ.get("DB_PORT")
-    mydbname = os.environ.get("DB_DBNAME")
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{myusername}:' +\
         f'{mypassword}@{myaddress}:{myport}/{mydbname}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -68,6 +68,17 @@ def create_app():
     seeder = FlaskSeeder()
     seeder.init_app(app, db)
 
+    # Register blueprints:
+    register_blueprints(app)
+
+    # Return the app to be run in main.py:
+    return app
+
+
+def register_blueprints(app: Flask) -> None:
+    """
+    This function registers the blueprints for the app.
+    """
     # Blueprint for views routes in the app:
     from .views import views as views_blueprint
     app.register_blueprint(views_blueprint)
@@ -87,6 +98,3 @@ def create_app():
     # Blueprint for form routes in the app:
     from .admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint)
-
-    # Return the app to be run in main.py:
-    return app

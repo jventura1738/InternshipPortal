@@ -79,7 +79,7 @@ listingsInfo = [
 
         'starred': True,
 
-        'duration': '12 weeks',
+        'duration': 12,
 
         'app_open': '08/01/2021',
 
@@ -106,7 +106,7 @@ listingsInfo = [
         'additional_info': '(Colorado only*) Minimum salary of ' +
         '$90,000 + benefits.',
 
-        'duration': '12 weeks',
+        'duration': 12,
 
         'app_open': '08/01/2021',
 
@@ -129,7 +129,7 @@ listingsInfo = [
         'pref_qualifications': 'Demonstrated interest in science and' +
         ' technology.',
 
-        'duration': '10 weeks',
+        'duration': 10,
 
         'app_open': '08/01/2021',
 
@@ -148,12 +148,12 @@ listingsToSubmit = [
         'client_city': 'Baltimore',
         'client_state': 'MD',
         'client_zip': '21202',
-        'position_title': 'TEST2 Software Engineering Intern',
+        'position_title': 'TEST1 Software Engineering Intern',
         'pos_responsibility': 'Learn and code',
         'min_qualifications': 'OOP, software design',
         'pref_qualifications': 'Python',
         'additional_info': 'Be a good human',
-        'duration': '12 weeks',
+        'duration': 12,
         'app_open': '01/01/2022',
         'app_close': '04/30/2022',
         'status': 'pending'
@@ -169,8 +169,110 @@ listingsToSubmit = [
         'min_qualifications': 'Bachelors',
         'pref_qualifications': '1-3 years experience',
         'additional_info': 'Joe momma',
-        'duration': 'Full time',
+        'duration': 0,
         'app_open': '01/01/2022',
         'app_close': '06/01/2022',
+        'status': 'active'
+    },
+    {
+        'client_name': 'Joe Momma Inc 2.',
+        'client_address': '69420 JM Ln',
+        'client_city': 'Joeland',
+        'client_state': 'CA',
+        'client_zip': '92677',
+        'position_title': 'Software Engineer',
+        'pos_responsibility': 'Code',
+        'min_qualifications': 'Bachelors',
+        'pref_qualifications': '1-3 years experience',
+        'additional_info': 'Joe momma',
+        'duration': 0,
+        'app_open': '01/01/2022',
+        'app_close': '06/01/2022',
+        'status': 'inactive'
+    }
+]
+
+# Tags for test cases:
+tags = [
+    'Python',
+    'JavaScript',
+    'PostgreSQL'
+]
+
+# Courses for test cases:
+courses = [
+    {
+        'course_num': 'COSC425',
+        'course_title': 'Software Engineering I',
+    },
+    {
+        'course_num': 'COSC426',
+        'course_title': 'Software Engineering II',
+    }
+]
+
+adminListingInfo = [
+    {
+        'client_id': 1,
+
+        'position': 'Summer 2022 Software Development Engineer',
+
+        'pos_responsibility': 'Collaborate with experienced cross-' +
+        'disciplinary Amazonians to conceive, design, and bring ' +
+        'innovative products and services to market.',
+
+        'min_qualifications': 'Programming experience with at least ' +
+        'one modern language such as Java, C++, or C# including ' +
+        'object-oriented design.',
+
+        'pref_qualifications': 'Experience with distributed, ' +
+        'multi-tiered systems, algorithms, and relational databases.',
+
+        'additional_info': None,
+
+        'starred': False,
+
+        'duration': 12,
+
+        'app_open': '08/01/2021',
+
+        'app_close': '12/31/2021',
+
+        'status': 'active',
+
+    },
+    {
+        'client_id': 1,
+
+        'position_title': 'new Summer 2022 Software Development Engineer',
+
+        'pos_responsibility': 'new Collaborate with experienced cross-' +
+        'disciplinary Amazonians to conceive, design, and bring ' +
+        'innovative products and services to market.',
+
+        'min_qualifications': 'new Programming experience with at least ' +
+        'one modern language such as Java, C++, or C# including ' +
+        'object-oriented design.',
+
+        'pref_qualifications': 'new Experience with distributed, ' +
+        'multi-tiered systems, algorithms, and relational databases.',
+
+        'additional_info': 'Joe momma',
+
+        'starred': False,
+
+        'duration': 9,
+
+        'app_open': '06/01/2021',
+
+        'app_close': '11/31/2021',
+
+        'status': 'inactive',
+
+        'app_link': 'https://www.amazon.com',
+
+        'tags': [],
+
+        'su_courses': [],
     }
 ]

@@ -16,6 +16,7 @@ from api.constants import OK, BAD_REQUEST, FORBIDDEN
 
 # Imports for the test app:
 from testing_data import usersInfo
+from conftest import db_reset
 
 
 # Helper to login
@@ -50,6 +51,7 @@ def test_login_logout(client):
         /login-submit
         /logout
     '''
+    db_reset()
     # Add user to the database:
     user = UsersModel(username=usersInfo[0]['username'],
                       email=usersInfo[0]['email'],

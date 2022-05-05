@@ -31,32 +31,6 @@ def _admin_session():
         return {'err_msg': 'ACCESS DENIED.'}, FORBIDDEN
 
 
-# Route for changing a listings status.
-@admin.route('/set-status/<id>/<status>', methods=['PUT'])
-def action_on_listing(id: int, status: str):
-    """Route accepts a listing:
-
-    NOTE: must be in admin session.
-    """
-    response = dict()
-
-    # Valid status:
-    if status in LISTING_STATUSES:
-        listing = ListingsModel.query.get(id)
-        listing.status = status
-        db.session.commit()
-
-        response['listing'] = listing.to_dict()
-        code = OK
-
-    # Invalid status:
-    else:
-        response['err_msg'] = 'Invalid status'
-        code = BAD_REQUEST
-
-    return response, code
-
-
 # Route for (un)starring listings.
 @admin.route('star-listing/<listing_id>', methods=['PUT'])
 def star_listing(listing_id: int):
@@ -81,7 +55,6 @@ def star_listing(listing_id: int):
         code = BAD_REQUEST
 
     return response, code
-
 
 
 # Route for editing listings.
@@ -130,7 +103,6 @@ def edit_listing(id: int) -> None:
                 t = Listings_TagsModel(l_id=id, t_id=t_id)
                 db.session.add(t)
 
-
         # Courses:
         courses = data['su_courses']
         c_ids = []
@@ -138,8 +110,9 @@ def edit_listing(id: int) -> None:
             course = course.split(' - ')[0]
             c = CoursesModel.query.filter_by(course_num=course).first()
             c_ids.append(c.id)
-        
-        courses_in_db = Listings_CoursesModel.query.filter_by(listing_id=id).all()
+
+        courses_in_db = Listings_CoursesModel.query.filter_by(
+            listing_id=id).all()
         # Clear Courses
         for course in courses_in_db:
             if course.course_id not in c_ids:
@@ -150,7 +123,7 @@ def edit_listing(id: int) -> None:
             if c_id not in [c.course_id for c in courses_in_db]:
                 c = Listings_CoursesModel(l_id=id, c_id=c_id)
                 db.session.add(c)
-        
+
         # Update the database.
         db.session.commit()
         response['listing'] = listing.to_dict()
@@ -295,6 +268,7 @@ def seen_message(message_id: int):
 
     return response, code
 
+
 @admin.route('delete_message/<message_id>', methods=['DELETE'])
 def delete_message(message_id: int):
     """Delete message from database
@@ -303,7 +277,7 @@ def delete_message(message_id: int):
 
     # Check if message is in database, if so delete message
     if message := ContactFormMessage.query.filter_by(id=message_id).first():
-        
+
         db.session.delete(message)
         db.session.commit()
         response['success_msg'] = f'Message with id {message_id}\
