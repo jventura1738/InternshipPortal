@@ -149,8 +149,6 @@ def edit_listing(id: int) -> None:
             if c_id not in [c.course_id for c in courses_in_db]:
                 c = Listings_CoursesModel(l_id=id, c_id=c_id)
                 db.session.add(c)
-
-
         # Update the database.
         db.session.commit()
         response['listing'] = listing.to_dict()
