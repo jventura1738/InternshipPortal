@@ -53,8 +53,8 @@ def modify_listing_stats(listing_id: int):
     # Get the listing:
     response = dict()
     data = request.json
-    listing_stats = ListingsStatisticsModel.query.filter_by(listing_id=\
-        listing_id).first()
+    listing_stats = ListingsStatisticsModel.query.filter_by(
+        listing_id=listing_id).first()
 
     # If the listing doesn't exist, return 404:
     if not listing_stats:
