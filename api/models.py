@@ -97,7 +97,7 @@ class Listings_CoursesModel(db.Model, SerializerMixin):
 
 
 # Clients Models Class:
-class ClientsModel(db.Model):
+class ClientsModel(db.Model, SerializerMixin):
     """This is the model for the clients."""
     __tablename__ = 'clients'
 
