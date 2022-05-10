@@ -100,7 +100,7 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white">
-                <tr v-for="message in this.all_messages" :key="message.id" @click="toMessageView(message[1].id); isSeen(message[1].id)" :class="message[1].was_seen ? 'bg-gray-100' : 'bg-white'" class="cursor-pointer hover:bg-gray-50">
+                <tr v-for="message in messages" :key="message.id" @click="toMessageView(message[1].id); isSeen(message[1].id)" :class="message[1].was_seen ? 'bg-gray-100' : 'bg-white'" class="cursor-pointer hover:bg-gray-50">
                   <div v-if="!message[1].was_seen">
                     <td class="px-3 py-4 whitespace-nowrap">
                       <div class="flex items-left">
@@ -179,27 +179,13 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref} from "vue";
 export default {
   name: "ContactInboxModule",
+  props: ["messages"],
   setup() {
-    const all_messages = ref([]);
-    const seenStatus = ref(false);
     
-
-    onMounted(async () => {
-      let result = await fetch(
-        `${process.env.SERVER_URL}/admin/get-messages/all`
-      ).catch((error) => {
-        console.log(error);
-      });
-      let messages = await result.json();
-      
-      all_messages.value = Object.entries(messages).filter((message) => {
-          return message; 
-      });
-      
-    });
+    const seenStatus = ref(false);
 
     async function isSeen(message_id){
        await fetch(`${process.env.SERVER_URL}/admin/seen_message/${message_id}`, {
@@ -217,13 +203,12 @@ export default {
         }
       });
     }
-
-    function toMessageView(message_id) { 
+  
+  function toMessageView(message_id) { 
       window.location.href = `/admin/view/message?id=${message_id}`; 
 
     };
     return {
-      all_messages,
       seenStatus,
       isSeen,
       toMessageView,

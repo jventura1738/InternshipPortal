@@ -12,7 +12,8 @@ For now just store API in the forms.py file, this will change later.
 import random
 import string
 from flask import Blueprint, request
-from .models import ContactFormMessage, db, ClientsModel, ListingsModel, UsersModel
+from .models import ContactFormMessage, db, ClientsModel, \
+    ListingsModel, UsersModel
 from .models import ResetTokensModel
 from .constants import OK, FORBIDDEN, BAD_REQUEST
 import hashlib  # Using for password hashing (SHA-256)
@@ -43,12 +44,9 @@ def contact_submit():
         message = ContactFormMessage(name, email, message)
         db.session.add(message)
         db.session.commit()
-        print(f'Name: {name}, email: {email}')
-        print(f'Message: {message}')
-        
+
     return {}, status
 
-  
 
 # Route for submitting forms:
 @forms.route('/listing-submit', methods=['POST'])
@@ -57,7 +55,8 @@ def listing_submit():
     This function handles the listing submissions.
 
     NOTE: The client-side should ensure that each field
-    contains information.  The additional_info my be blank.
+    contains information.  Otherwise the server will default
+    values that have little to no meaning.
 
     Returns ListingsModel as JSON.
     """
@@ -98,8 +97,7 @@ def listing_submit():
     db.session.add(listing)
     db.session.commit()
 
-    response = {'status': OK}
-    return response
+    return {}, OK
 
 
 # Route for submitting password reset:

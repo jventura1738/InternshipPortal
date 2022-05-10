@@ -2,49 +2,18 @@
 <template>
   <form>
     <div
-      class="
-        shadow-xl
-        border-2
-        rounded
-        px-8
-        pt-6
-        pb-8
-        mb-4
-        flex flex-col
-        my-2
-        m-auto
-        w-3/4
-      "
+      class="shadow-xl border-2 rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2 m-auto w-3/4"
     >
       <div class="-mx-3 md:flex mb-6">
         <div class="md:w-1/2 px-3 mb-6 md:mb-0">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-              mt-6
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-internship-position-title"
           >
             Position Title
           </label>
           <input
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              mb-6
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6"
             required=""
             id="grid-company-name"
             type="text"
@@ -55,31 +24,13 @@
         </div>
         <div class="md:w-1/2 px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
             for="grid-minimum-qualifications"
           >
             Minimum Qualifications
           </label>
           <textarea
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              resize-none
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 resize-none"
             rows="6"
             required
             id="grid-minimum-qualifications"
@@ -95,31 +46,13 @@
       <div class="-mx-3 md:flex mb-6">
         <div class="md:w-full px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
             for="grid-preferred-qualifications"
           >
             Preferred Qualifications
           </label>
           <textarea
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              resize-none
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 resize-none"
             rows="6"
             required=""
             id="grid-preferred-qualifications"
@@ -135,31 +68,13 @@
       <div class="-mx-3 md:flex mb-2">
         <div class="md:w-full px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
             for="grid-position-responsibilities"
           >
             Position Responsibilities
           </label>
           <textarea
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              resize-none
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 resize-none"
             rows="6"
             required=""
             id="grid-position-responsibilities"
@@ -174,33 +89,13 @@
         </div>
         <div class="md:w-full px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-              mt-6
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-additional-information"
           >
             Additional Information
           </label>
           <textarea
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              mb-6
-              resize-none
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6 resize-none"
             rows="4"
             required=""
             id="grid-additional-information"
@@ -212,33 +107,13 @@
         </div>
         <div class="md:w-full px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-              mt-6
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-duration"
           >
             Duration (in weeks)
           </label>
           <input
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              mb-6
-              resize-none
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6 resize-none"
             required=""
             id="grid-duration"
             type="number"
@@ -249,33 +124,13 @@
         </div>
         <div class="md:w-full px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-              mt-6
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-app-open"
           >
             Application Open Date
           </label>
           <input
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              mb-6
-              resize-none
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6 resize-none"
             required=""
             id="grid-duration"
             type="date"
@@ -286,39 +141,36 @@
         </div>
         <div class="md:w-full px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-              mt-6
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-app-close"
           >
             Application Close Date
           </label>
           <input
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              mb-6
-              resize-none
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6 resize-none"
             required=""
             id="grid-app-close"
             type="date"
             placeholder="01/01/2022"
             v-model="app_close"
             @change="appCloseChange"
+          />
+        </div>
+        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+          <label
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
+            for="grid-internship-application-link"
+          >
+            Application Link
+          </label>
+          <input
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6"
+            required=""
+            id="grid-application-link"
+            type="text"
+            placeholder="https://www.example.com/application"
+            v-model="app_link"
+            @change="appLinkChange"
           />
         </div>
       </div>
@@ -328,7 +180,6 @@
 
 <script>
 import { ref, toRefs } from "vue";
-// TODO: Change input outline colors
 export default {
   name: "Specifications",
   props: {
@@ -340,6 +191,7 @@ export default {
     durationChangedCallback: Function,
     appOpenChangedCallback: Function,
     appCloseChangedCallback: Function,
+    appLinkChangedCallback: Function,
   },
   setup(props) {
     const {
@@ -351,6 +203,7 @@ export default {
       durationChangedCallback,
       appOpenChangedCallback,
       appCloseChangedCallback,
+      appLinkChangedCallback,
     } = toRefs(props);
     const positionTitle = ref("");
     const minQualifications = ref("");
@@ -360,6 +213,7 @@ export default {
     const duration = ref(0);
     const app_open = ref("");
     const app_close = ref("");
+    const app_link = ref("");
     function titleChange() {
       titleChangedCallback.value(positionTitle.value);
     }
@@ -384,6 +238,9 @@ export default {
     function appCloseChange() {
       appCloseChangedCallback.value(app_close.value);
     }
+    function appLinkChange() {
+      appLinkChangedCallback.value(app_link.value);
+    }
     return {
       positionTitle,
       minQualifications,
@@ -393,6 +250,7 @@ export default {
       duration,
       app_open,
       app_close,
+      app_link,
       titleChange,
       minQualChange,
       prefQualChange,
@@ -401,6 +259,7 @@ export default {
       durationChange,
       appOpenChange,
       appCloseChange,
+      appLinkChange,
     };
   },
 };

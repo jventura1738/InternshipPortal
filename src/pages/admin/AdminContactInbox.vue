@@ -1,8 +1,7 @@
 <template>
   <div>
     <Navbar :isAdmin="isAdmin" />
-    <InboxSearchBar/>
-    <ContactInboxModule/>
+    <InboxSearchBar/>  
   </div>
 </template>
 
@@ -16,7 +15,6 @@ export default {
   components: {
     Navbar,
     InboxSearchBar, 
-    ContactInboxModule,
   },
   setup() {
     const isAdmin = ref(true);

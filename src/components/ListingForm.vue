@@ -1,21 +1,11 @@
 <template>
-  <div id="listing-form">
+  <div id="listing-form" class="listing-form">
     <div class="p-5 mb-24">
       <div class="mx-4 p-4">
         <div class="flex items-center">
           <div class="flex items-center text-white relative">
             <div
-              class="
-                rounded-full
-                transition
-                duration-500
-                ease-in-out
-                h-12
-                w-12
-                py-3
-                border-2 border-red-600
-                bg-red-600
-              "
+              class="rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 border-red-600 bg-red-600"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -35,45 +25,18 @@
               </svg>
             </div>
             <div
-              class="
-                absolute
-                top-0
-                -ml-10
-                text-center
-                mt-16
-                w-32
-                text-xs
-                font-medium
-                uppercase
-                text-red-600
-              "
+              class="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase text-red-600"
             >
               General
             </div>
           </div>
           <div
-            class="
-              w-1/4
-              flex-auto
-              border-t-2
-              transition
-              duration-500
-              ease-in-out
-            "
+            class="w-1/4 flex-auto border-t-2 transition duration-500 ease-in-out"
             :class="generalToSpecifications"
           ></div>
           <div class="flex items-center text-gray-500 relative">
             <div
-              class="
-                rounded-full
-                transition
-                duration-500
-                ease-in-out
-                h-12
-                w-12
-                py-3
-                border-2
-              "
+              class="rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2"
               :class="generalToSpecifications"
             >
               <svg
@@ -97,45 +60,19 @@
               </svg>
             </div>
             <div
-              class="
-                absolute
-                top-0
-                -ml-10
-                text-center
-                mt-16
-                w-32
-                text-xs
-                font-medium
-                uppercase
-              "
+              class="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase"
               :class="specificationsText"
             >
               Specifications
             </div>
           </div>
           <div
-            class="
-              w-1/4
-              flex-auto
-              border-t-2
-              transition
-              duration-500
-              ease-in-out
-            "
+            class="w-1/4 flex-auto border-t-2 transition duration-500 ease-in-out"
             :class="specificationsToReview"
           ></div>
           <div class="flex items-center text-gray-500 relative">
             <div
-              class="
-                rounded-full
-                transition
-                duration-500
-                ease-in-out
-                h-12
-                w-12
-                py-3
-                border-2
-              "
+              class="rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2"
               :class="specificationsToReview"
             >
               <svg
@@ -158,45 +95,19 @@
               </svg>
             </div>
             <div
-              class="
-                absolute
-                top-0
-                -ml-10
-                text-center
-                mt-16
-                w-32
-                text-xs
-                font-medium
-                uppercase
-              "
+              class="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase"
               :class="reviewText"
             >
               Review
             </div>
           </div>
           <div
-            class="
-              w-1/4
-              flex-auto
-              border-t-2
-              transition
-              duration-500
-              ease-in-out
-            "
+            class="w-1/4 flex-auto border-t-2 transition duration-500 ease-in-out"
             :class="reviewToConfirm"
           ></div>
           <div class="flex items-center text-gray-500 relative">
             <div
-              class="
-                rounded-full
-                transition
-                duration-500
-                ease-in-out
-                h-12
-                w-12
-                py-3
-                border-2
-              "
+              class="rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2"
               :class="reviewToConfirm"
             >
               <svg
@@ -217,17 +128,7 @@
               </svg>
             </div>
             <div
-              class="
-                absolute
-                top-0
-                -ml-10
-                text-center
-                mt-16
-                w-32
-                text-xs
-                font-medium
-                uppercase
-              "
+              class="absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium uppercase"
               :class="confirmText"
             >
               Confirm
@@ -253,6 +154,7 @@
       :durationChangedCallback="updateDuration"
       :appOpenChangedCallback="updateAppOpen"
       :appCloseChangedCallback="updateAppClose"
+      :appLinkChangedCallback="updateApplicationLink"
       :class="{ hidden: isSpecificationsHidden, '': !isSpecificationsHidden }"
     />
     <Review
@@ -269,6 +171,7 @@
       :duration="duration"
       :app_open="app_open"
       :app_close="app_close"
+      :app_link="applicationLink"
       :class="{ hidden: isReviewHidden, '': !isReviewHidden }"
     />
     <Confirm
@@ -319,6 +222,11 @@
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
         </button>
+        <Modal
+          v-if="show_modal"
+          :ModalTitleProp="modal_title"
+          :ModalMessageProp="modal_message"
+        />
       </div>
     </div>
   </div>
@@ -330,6 +238,7 @@ import General from "./steps/General.vue";
 import Specifications from "./steps/Specifications.vue";
 import Review from "./steps/Review.vue";
 import Confirm from "./steps/Confirm.vue";
+import Modal from "../components/Modal.vue";
 export default {
   name: "ListingForm",
   components: {
@@ -337,6 +246,7 @@ export default {
     Specifications,
     Review,
     Confirm,
+    Modal,
   },
   setup() {
     // TODO: This needs some MAJOR refactoring, these can be made into objects!
@@ -364,28 +274,70 @@ export default {
     const duration = ref("");
     const app_open = ref("");
     const app_close = ref("");
+    const applicationLink = ref("");
+    const show_modal = ref(false);
+    const modal_title = ref("");
+    const modal_message = ref("");
 
     function nextSection() {
       if (
         isGeneralHidden.value == false &&
         isSpecificationsHidden.value == true
       ) {
-        isGeneralHidden.value = true;
-        isSpecificationsHidden.value = false;
-        stepIndex.value = 1;
-        generalToSpecifications.value = "border-red-600 bg-red-600 text-white";
-        specificationsText.value = "text-red-600";
+        if (
+          clientName.value != "" &&
+          clientAddress.value != "" &&
+          clientCity.value != "" &&
+          clientState.value != "" &&
+          clientZip.value != ""
+        ) {
+          isGeneralHidden.value = true;
+          isSpecificationsHidden.value = false;
+          stepIndex.value = 1;
+          generalToSpecifications.value =
+            "border-red-600 bg-red-600 text-white";
+          specificationsText.value = "text-red-600";
+        } else {
+          // Modal
+          show_modal.value = true;
+          modal_title.value = "Missing Information";
+          modal_message.value =
+            "Please fill out all required fields before proceeding.";
+          setTimeout(() => {
+            show_modal.value = false;
+          }, 3000);
+        }
       }
       // If Specifications to Review
       else if (
         isSpecificationsHidden.value == false &&
         isReviewHidden.value == true
       ) {
-        isSpecificationsHidden.value = true;
-        isReviewHidden.value = false;
-        stepIndex.value = 2;
-        specificationsToReview.value = "border-red-600 bg-red-600 text-white";
-        reviewText.value = "text-red-600";
+        if (
+          positionTitle.value != "" &&
+          minQualifications.value != "" &&
+          prefQualifications.value != "" &&
+          positionResponsibilities.value != "" &&
+          duration.value != "" &&
+          app_open.value != "" &&
+          app_close.value != ""
+        ) {
+          isSpecificationsHidden.value = true;
+          isReviewHidden.value = false;
+          stepIndex.value = 2;
+          specificationsToReview.value = "border-red-600 bg-red-600 text-white";
+          reviewText.value = "text-red-600";
+        } else {
+          // Modal
+          show_modal.value = true;
+          modal_title.value = "Missing Information";
+          modal_message.value =
+            "Please fill out all required fields before proceeding.";
+          setTimeout(() => {
+            show_modal.value = false;
+          }, 3000);
+        }
+        // If Review to Confirm
       } else if (
         isReviewHidden.value == false &&
         isConfirmHidden.value == true
@@ -396,7 +348,7 @@ export default {
         reviewToConfirm.value = "border-red-600 bg-red-600 text-white";
         confirmText.value = "text-red-600";
       }
-      this.window.scrollTo(0, 0);
+      window.scrollTo(0, 0);
     }
 
     function previousSection() {
@@ -428,7 +380,7 @@ export default {
         reviewToConfirm.value = "border-gray-300";
         confirmText.value = "text-gray-500";
       }
-      this.window.scrollTo(0, 0);
+      window.scrollTo(0, 0);
     }
     function updateName(newName) {
       clientName.value = newName;
@@ -469,6 +421,9 @@ export default {
     function updateAppClose(newAppClose) {
       app_close.value = newAppClose;
     }
+    function updateApplicationLink(newLink) {
+      applicationLink.value = newLink;
+    }
     async function submitListing() {
       const body = {
         client_name: clientName.value,
@@ -484,6 +439,7 @@ export default {
         duration: duration.value,
         app_open: app_open.value,
         app_close: app_close.value,
+        app_link: applicationLink.value,
       };
       await fetch(`${process.env.SERVER_URL}/listing-submit`, {
         method: "POST",
@@ -529,6 +485,10 @@ export default {
       duration,
       app_open,
       app_close,
+      applicationLink,
+      show_modal,
+      modal_title,
+      modal_message,
       nextSection,
       previousSection,
       updateName,
@@ -544,6 +504,7 @@ export default {
       updateDuration,
       updateAppOpen,
       updateAppClose,
+      updateApplicationLink,
       submitListing,
     };
   },

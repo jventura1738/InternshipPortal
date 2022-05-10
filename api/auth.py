@@ -43,14 +43,13 @@ def login_submit():
     """
     response = dict()
     login_data = request.json
+    username, password = login_data['username'], login_data['password']
 
     # Ensure both username and password are provided.
-    if len(login_data.values()) != 2:
+    if not username or not password:
         response['err_msg'] = 'Missing username or password.'
         code = FORBIDDEN
     else:
-        username, password = login_data['username'], login_data['password']
-
         # Hash password with SHA-256.
         pass_hash = hashlib.sha256(password.encode()).hexdigest()
 

@@ -34,6 +34,7 @@ class UsersModel(db.Model, SerializerMixin):
     password = db.Column(db.String(MAX_CREDENTIAL_LEN))
     is_admin = db.Column(db.Boolean, default=False)
 
+    # Constructor:
     def __init__(self, username: str, email: str, password: str,
                  is_admin: bool = False):
         self.username = username
@@ -41,8 +42,15 @@ class UsersModel(db.Model, SerializerMixin):
         self.password = password
         self.is_admin = is_admin
 
+    # Readable representation:
+    def __str__(self):
+        return f'User {self.username}'
+
+    # Representation for debugging:
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'<User ({self.id}) {self.username} is_admin: {self.is_admin}\
+            email: {self.email}, \
+            password hash: {self.password}>'
 
 
 # Courses Models Class:
@@ -63,7 +71,8 @@ class CoursesModel(db.Model, SerializerMixin):
         self.course_title = course_title
 
     def __repr__(self):
-        return f'<Course {self.course_num}>'
+        return f'<Course {self.course_num}, \
+            title: {self.course_title}>'
 
 
 # Model for linking courses to listings.
@@ -72,7 +81,7 @@ class Listings_CoursesModel(db.Model, SerializerMixin):
     __tablename__ = 'listings_courses'
 
     # Serialization rules:
-    serialize_only = ('id', 'listing_id', 'course_num')
+    serialize_only = ('id', 'listing_id', 'course_id')
 
     # Table attributes:
     id = db.Column(db.Integer, primary_key=True)
@@ -84,11 +93,11 @@ class Listings_CoursesModel(db.Model, SerializerMixin):
         self.course_id = c_id
 
     def __repr__(self):
-        return f'<Course {self.course_num}>'
+        return f'<Course {self.course_id}>'
 
 
 # Clients Models Class:
-class ClientsModel(db.Model):
+class ClientsModel(db.Model, SerializerMixin):
     """This is the model for the clients."""
     __tablename__ = 'clients'
 
@@ -103,12 +112,14 @@ class ClientsModel(db.Model):
     client_addr = db.Column(db.String(MAX_CREDENTIAL_LEN))
     client_email = db.Column(db.String(MAX_CREDENTIAL_LEN))
 
+    # Constructor:
     def __init__(self, client_name: str, client_addr: str = 'NA',
                  client_email: str = None):
         self.client_name = client_name
         self.client_addr = client_addr
         self.client_email = client_email
 
+    # Representation for debugging:
     def __repr__(self):
         return f'<Client ({self.id}) {self.client_name}>'
 
@@ -122,7 +133,7 @@ class ListingsModel(db.Model, SerializerMixin):
     serialize_only = ('id', 'client_id', 'position', 'pos_responsibility',
                       'min_qualifications', 'pref_qualifications',
                       'additional_info', 'status', 'starred', 'duration',
-                      'app_open', 'app_close')
+                      'app_open', 'app_close', 'app_link')
 
     # Table attributes:
     id = db.Column(db.Integer, primary_key=True)
@@ -132,9 +143,10 @@ class ListingsModel(db.Model, SerializerMixin):
     min_qualifications = db.Column(db.Text)
     pref_qualifications = db.Column(db.Text)
     additional_info = db.Column(db.Text)
-    duration = db.Column(db.Text)
+    duration = db.Column(db.Integer)
     app_open = db.Column(db.Text)
     app_close = db.Column(db.Text)
+    app_link = db.Column(db.Text)
 
     # Status: pending, active, inactive
     status = db.Column(db.String(MAX_CREDENTIAL_LEN))
@@ -142,13 +154,14 @@ class ListingsModel(db.Model, SerializerMixin):
     # Starred: True or False
     starred = db.Column(db.Boolean, default=False)
 
+    # Constructor:
     def __init__(self, client_id: int, position: str = 'NA',
                  pos_responsibility: str = 'NA',
                  min_qualifications: str = 'NA',
                  pref_qualifications: str = 'NA',
                  additional_info: str = None, status: str = DEFAULT,
                  starred: bool = False, duration: int = 0,
-                 app_open: str = None, app_close: str = None):
+                 app_open: str = None, app_close: str = None, app_link: str = None):
         self.client_id = client_id
         self.position = position
         self.pos_responsibility = pos_responsibility
@@ -160,9 +173,16 @@ class ListingsModel(db.Model, SerializerMixin):
         self.duration = duration  # In weeks.
         self.app_open = app_open
         self.app_close = app_close
+        self.app_link = app_link
 
+    # Readable representation:
+    def __str__(self):
+        return f'Listing {self.id}: {self.position}'
+
+    # Representation for debugging:
     def __repr__(self):
-        return f'<Listing {self.id}: {self.position}>'
+        return f'<Listing {self.id}: {self.position}\
+        status: {self.status}, starred: {self.starred}>'
 
 
 # Model for listings tags.

@@ -1,19 +1,7 @@
 <template>
   <form>
     <div
-      class="
-        shadow-xl
-        border-2
-        rounded
-        px-8
-        pt-6
-        pb-8
-        mb-4
-        flex flex-col
-        my-2
-        m-auto
-        w-1/2
-      "
+      class="shadow-xl border-2 rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2 m-auto w-1/2"
     >
       <div class="text-center mb-12 mt-4">
         <div class="text-3xl font-extrabold">Review</div>
@@ -65,6 +53,9 @@
           <span class="font-bold"> Application Close Date: </span
           >{{ this.app_close }}
         </div>
+        <div class="text-lg p-2">
+          <span class="font-bold"> Application Link: </span>{{ this.app_link }}
+        </div>
       </div>
     </div>
   </form>
@@ -87,6 +78,7 @@ export default {
     "duration",
     "app_close",
     "app_open",
+    "app_link",
   ],
 };
 </script>

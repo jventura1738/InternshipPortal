@@ -119,25 +119,86 @@
             v-model="app_close"
           />
         </div>
+        <div
+          class="w-full px-3 flex-nm xs:flex-nm sm:flex-nm md:flex-nm lg:flex-nm xl:flex-el"
+        >
+          <label
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
+            >Relevant SU Courses (control click to add multiple)</label
+          >
+          <select
+            class="outline-none appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6"
+            required
+            v-model="courses_on_listing"
+            multiple
+          >
+            <option
+              v-for="(course, index) in su_courses"
+              v-bind:key="index"
+              v-bind:selected="course in courses_on_listing"
+            >
+              {{ course.course_num }} - {{ course.course_title }}
+            </option>
+          </select>
+        </div>
+        <div
+          class="w-full px-3 flex-nm xs:flex-nm sm:flex-nm md:flex-nm lg:flex-nm xl:flex-el"
+        >
+          <label
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
+            >Tags</label
+          >
+          <select
+            class="outline-none appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6"
+            required
+            v-model="tags_on_listing"
+            multiple
+          >
+            <option
+              v-for="(tag, index) in tags"
+              v-bind:key="index"
+              v-bind:selected="tag in tags_on_listing"
+            >
+              {{ tag }}
+            </option>
+          </select>
+        </div>
+        <div
+          class="w-full px-3 flex-nm xs:flex-nm sm:flex-nm md:flex-nm lg:flex-nm xl:flex-el"
+        >
+          <label
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
+            >Application Link</label
+          >
+          <input
+            class="outline-none appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6"
+            required
+            type="text"
+            v-model="app_link"
+          />
+        </div>
       </div>
-      <div
-        class="w-1/2 flex-nm xs:flex-nm sm:flex-nm md:flex-nm lg:flex-nm xl:flex-el"
-      >
-        <label
-          class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
-          >Relevant SU Courses (control click to add multiple)</label
-        >
-        <select
-          class="outline-none appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6"
-          required
-          type="text"
-          v-model="selected_courses"
-          multiple
-        >
-          <option v-for="course in su_courses" v-bind:key="course.course_num">
-            {{ course.course_num }} - {{ course.course_title }}
-          </option>
-        </select>
+      <div class="flex items-center justify-center w-full mb-12">
+        <label for="toogleA" class="flex items-center cursor-pointer">
+          <div class="relative">
+            <input
+              id="toogleA"
+              type="checkbox"
+              class="sr-only"
+              v-model="status"
+            />
+            <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+            <div
+              class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"
+            ></div>
+          </div>
+          <div v-if="status == true" class="ml-3 text-gray-600 font-medium">
+            Listing Activated
+          </div>
+          <div v-else class="ml-3 text-gray-700 font-medium">
+            Listing Deactivated
+          </div>
+        </label>
       </div>
       <div v-if="status == 'pending'" class="flex items-center justify-center w-full mb-12">
         <label 
@@ -193,8 +254,14 @@ export default {
     const duration = ref("");
     const app_open = ref("");
     const app_close = ref("");
+    const app_link = ref("");
+    const status = ref(false);
     const su_courses = ref([]);
     const selected_courses = ref([]);
+    const selected_tags = ref([]);
+    const tags = ref([]);
+    const tags_on_listing = ref([]);
+    const courses_on_listing = ref([]);
     const show_modal = ref(false);
     const modal_title = ref("");
     const modal_message = ref("");
@@ -202,6 +269,7 @@ export default {
     const status = ref("");
 
     function formatDate(dateToFormat) {
+      let dateToReturn = "";
       if (dateToFormat != null) {
         if (dateToFormat.includes("-")) {
           let l = dateToFormat.split("-");
@@ -253,11 +321,17 @@ export default {
       });
       let all_courses = await course_result.json();
 
-      // console.log("ALL COURSES", all_courses.courses);
+      let tag_result = await fetch(
+        `${process.env.SERVER_URL}/admin/get-all-tags`
+      ).catch((error) => {
+        console.log(error);
+      });
+      let all_tags = await tag_result.json();
+      tags.value = all_tags.tags;
 
       // TODO: NEEDS REFACTORING
       let l = listing.listing;
-      console.log(l);
+      console.log(listing);
       id.value = l.id;
       position.value = l.position;
       pos_res.value = l.pos_responsibility;
@@ -267,6 +341,7 @@ export default {
       duration.value = l.duration;
       app_open.value = formatDate(l.app_open);
       app_close.value = formatDate(l.app_close);
+      app_link.value = l.app_link;
       su_courses.value = all_courses.courses;
       tags_on_listing.value = listing.tags;
       courses_on_listing.value = listing.courses;
@@ -286,6 +361,11 @@ export default {
     // TODO: TEST THIS THOROUGHLY!!!
     // MAKE SURE TO CATCH EDGE CASES
     async function updateListing() {
+      for (let i = 0; i < selected_courses.value.length; i++) {
+        let course_num = selected_courses.value[i].split(" - ")[0];
+        selected_courses.value[i] = course_num;
+        console.log(selected_courses.value[i]);
+      }
       const listing = {
         position_title: position.value,
         pos_responsibility: pos_res.value,
@@ -300,6 +380,7 @@ export default {
         app_link: app_link.value,
         status: status.value == true ? "active" : "inactive",
       };
+
       await fetch(`${process.env.SERVER_URL}/admin/edit-listing/${id.value}`, {
         method: "PUT",
         mode: "cors",
@@ -333,8 +414,12 @@ export default {
       duration,
       app_open,
       app_close,
+      app_link,
+      status,
       su_courses,
       selected_courses,
+      selected_tags,
+      tags,
       show_modal,
       modal_title,
       modal_message,
@@ -345,3 +430,10 @@ export default {
   },
 };
 </script>
+
+<style>
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #48bb78;
+}
+</style>

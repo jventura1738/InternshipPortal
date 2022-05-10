@@ -39,6 +39,8 @@ class ListingsSeeder(Seeder):
 
                 'app_close': '12/31/2021',
 
+                'app_link': 'https://www.amazon.jobs/en/jobs/1917408/software-development-engineer-aws?cmpid=POATAW401208B&ccuid=38158778542',
+
                 'status': 'active'
             },
             {

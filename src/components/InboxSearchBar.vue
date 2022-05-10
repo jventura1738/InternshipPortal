@@ -1,26 +1,22 @@
 <template>
-  <div class="sm:items-center sm:flex sm:justify-between mx-48 mt-12">
+  <div class="sm:items-center sm:flex sm:justify-center space-x-16 mx-48 mt-12">
+    
     <form action="" class="flex mt-2 sm:mt-0">
-      <div>
+      <div class="">
         <InboxFilterDropdown :changeFilter="updateFilter" />
       </div>
-
-      <div class="ml-4">
-        <!--InboxSortDropdown :changeFilter="sortMessages" /-->
-      </div>
     </form>
-  </div>
-  <div class="mt-10 flex justify-center items-center">
-    <div class="pt-2 relative mx-auto text-gray-600">
+    <div class="flex justify-center items-center">
+    <div class="relative pt-10 mx-auto text-gray-600">
       <input
-        class="border-2 border-gray-300 bg-white h-10 w-72 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+        class="border-2 border-gray-300 bg-white h-10 w-72 px-5 rounded-lg text-sm focus:outline-none"
         type="text"
         name="search"
         :placeholder="`Search by ${filterValue}`"
         v-model="searchTerm"
         @input="filterMessages"
       />
-      <button type="submit" class="absolute right-0 top-0 mt-5 mr-4">
+      <button type="submit" class="absolute right-0 top-8 mt-5 mr-4">
         <svg
           class="text-gray-600 h-4 w-4 fill-current"
           xmlns="http://www.w3.org/2000/svg"
@@ -41,23 +37,32 @@
         </svg>
       </button>
     </div>
+    </div>
+  </div>
+  
+  <div class="items-center">
+    <div class="mt-14">
+      <ContactInbox :messages="filtered_messages" />
+    </div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
-import InboxFilterDropdown from "./InboxFilterDropdown.vue"
+import InboxFilterDropdown from "./InboxFilterDropdown.vue";
+import ContactInbox from "./ContactInbox.vue";
 export default {
   name: "InboxSearchBar",
   components: {
-    InboxFilterDropdown
+    InboxFilterDropdown,
+    ContactInbox,
   },
   setup() {
     const all_messages = ref([]);
     const filtered_messages = ref([]);
     const searchTerm = ref("");
     const filterValue = ref("name");
-    const sortValue = ref("name-asc");
+    
 
     onMounted(async () => {
       let result = await fetch(
@@ -66,8 +71,11 @@ export default {
         console.log(error);
       });
       let messages = await result.json();
-      
+      console.log(messages);
       all_messages.value = Object.entries(messages).filter((message) => {
+          return message; 
+      });
+      filtered_messages.value = Object.entries(messages).filter((message) => {
           return message; 
       });
     });
@@ -118,69 +126,13 @@ export default {
       }
     }
 
-    function sortMessages(sort) {
-      sortValue.value = sort;
-      switch (sortValue.value) {
-        case "name-asc":
-          filtered_messages.value = filtered_messages.value.sort((a, b) => {
-            if (
-              a[1].message.toLowerCase()[0] <
-              b[1].message.toLowerCase()[0]
-            )
-              return -1;
-            if (
-              a[1].message.toLowerCase()[0] >
-              b[1].message.toLowerCase()[0]
-            )
-              return 1;
-            return 0;
-          });
-          break;
-        case "name-desc":
-          filtered_messages.value = filtered_messages.value.sort((a, b) => {
-            if (
-              a[1].name.toLowerCase()[0] >
-              b[1].name.toLowerCase()[0]
-            )
-              return -1;
-            if (
-              a[1].name.toLowerCase()[0] <
-              b[1].name.toLowerCase()[0]
-            )
-              return 1;
-            return 0;
-          });
-          break;
-        case "email-asc":
-          filtered_messages.value = filtered_messages.value.sort((a, b) => {
-            if (a[1].email.toLowerCase()[0] < b[1].email.toLowerCase()[0])
-              return -1;
-            if (a[1].email.toLowerCase()[0] > b[1].email.toLowerCase()[0])
-              return 1;
-            return 0;
-          });
-          break;
-        case "email-desc":
-          filtered_messages.value = filtered_messages.value.sort((a, b) => {
-            if (a[1].email.toLowerCase()[0] > b[1].email.toLowerCase()[0])
-              return -1;
-            if (a[1].email.toLowerCase()[0] < b[1].email.toLowerCase()[0])
-              return 1;
-            return 0;
-          });
-          break;
-      }
-    }
-
     return {
       filterMessages,
-      sortMessages,
       updateFilter,
       all_messages,
       filtered_messages,
       searchTerm,
-      filterValue,
-      sortValue,
+      filterValue
     };
   },
 };

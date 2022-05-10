@@ -1,6 +1,6 @@
 <template>
-  <div class="sm:items-center sm:flex sm:justify-between mx-48 mt-12">
-    <div class="flex space-x-1 sm:justify-end sm:order-last">
+  <div class="sm:flex sm:items-center justify-between mx-48 mt-12">
+    <div class="flex space-x-1 mt-10">
       <button
         type="button"
         class="p-1.5 text-gray-700 rounded bg-gray-100"
@@ -47,19 +47,9 @@
         </svg>
       </button>
     </div>
-
-    <form action="" class="flex mt-2 sm:mt-0">
-      <div>
-        <BrowseFilterDropdown :changeFilter="updateFilter" />
-      </div>
-
-      <div class="ml-4">
-        <BrowseSortDropdown :changeFilter="sortListings" />
-      </div>
-    </form>
-  </div>
-  <div class="mt-10 flex justify-center items-center">
-    <div class="pt-2 relative mx-auto text-gray-600">
+    
+    <div class="flex items-center">
+    <div class="pt-2 mt-10 relative mx-auto text-gray-60">
       <input
         class="border-2 border-gray-300 bg-white h-10 w-72 px-5 pr-16 rounded-lg text-sm focus:outline-none"
         type="text"
@@ -89,11 +79,25 @@
         </svg>
       </button>
     </div>
+    </div>
+  
+   
+    <form action="" class="flex mt-2 sm:mt-0">
+      <div>
+        <BrowseFilterDropdown :changeFilter="updateFilter" />
+      </div>
+
+      <div class="ml-4">
+        <BrowseSortDropdown :changeFilter="sortListings" />
+      </div>
+    </form>
+   
   </div>
+  
   <div v-if="tableViewToggle">
     <ListingTable :listings="filtered_listings" />
   </div>
-  <div v-else class="mt-14">
+  <div v-if="gridViewToggle" class="mt-14">
     <BrowseListingCard :listings="filtered_listings" />
   </div>
 </template>

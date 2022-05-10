@@ -6,7 +6,8 @@ Routes module for general routes in api.
 
 from flask import Blueprint, request
 
-from .models import CoursesModel, Listings_TagsModel, ListingsModel, ClientsModel, TagsModel
+from .models import CoursesModel, Listings_TagsModel, ListingsModel, \
+    ClientsModel, TagsModel
 from .models import db, ListingsStatisticsModel, Listings_CoursesModel
 from .constants import LISTING_STATUSES
 from .constants import OK, BAD_REQUEST, NOT_FOUND
@@ -44,7 +45,7 @@ def get_listing_stats(listing_id: int):
 
 
 # Route to modify the statistics on a given listing:
-@routes.route('/modify-statitics/<listing_id>', methods=['PUT'])
+@routes.route('/modify-statistics/<listing_id>', methods=['PUT'])
 def modify_listing_stats(listing_id: int):
     """
     Route to modify the statistics on a given listing.
@@ -52,8 +53,9 @@ def modify_listing_stats(listing_id: int):
     # Get the listing:
     response = dict()
     data = request.json
-    listing_stats = ListingsStatisticsModel.query.filter_by(listing_id=listing_id)\
-        .first()
+
+    listing_stats = ListingsStatisticsModel.query.filter_by(
+        listing_id=listing_id).first()
 
     # If the listing doesn't exist, return 404:
     if not listing_stats:
@@ -85,7 +87,7 @@ def modify_listing_stats(listing_id: int):
 
 # Route to get all listings with the given status.
 @routes.route('/get-listings/<status>', methods=['GET'])
-def get_listings(status: str = 'all'):
+def get_listings(status: str):
     """Route returns json payload of all <status> listings:
 
     JSON payload format:
@@ -153,9 +155,9 @@ def get_listings(status: str = 'all'):
             # Create a list of tags using Listings_Courses Relation:
             courses = list()
             for listings_course in listings_courses:
-                course = CoursesModel.query.filter_by(id=listings_course.id).\
+                course = CoursesModel.query.filter_by(id=listings_course.course_id).\
                     first()
-                courses.append(course.course_num)
+                courses.append(f"{course.course_num} - {course.course_title}")
 
             # Create payload for each listing:
             response[i] = {
@@ -189,6 +191,9 @@ def get_listing(id: int):
             'additional_info': additional_info,
             'status': status,
             'starred': starred,
+            'app_open': app_open,
+            'app_close': app_close,
+            'app_link': app_link,
         }
         'tags': [tag1, tag2, ...],
         'courses': [course1, course2, ...]
@@ -217,12 +222,12 @@ def get_listing(id: int):
         for listings_course in listings_courses:
             course = CoursesModel.query.filter_by(id=listings_course.id).\
                 first()
-            courses.append(course.course_num)
+            courses.append(f"{course.course_num} - {course.course_title}")
 
         # Create payload for the listing:
         response['listing'] = listing.to_dict()
         response['tags'] = tags
-        response['course'] = courses
+        response['courses'] = courses
         code = OK
 
     # If the listing does not exist, return a 404:

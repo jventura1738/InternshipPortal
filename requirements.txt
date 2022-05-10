@@ -1,4 +1,5 @@
 flask
+Flask
 flask-cors
 flask-login
 flask-migrate
@@ -11,3 +12,4 @@ psycopg2
 psycopg2-binary
 bcrypt
 python-dotenv
+pytest

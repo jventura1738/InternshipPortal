@@ -31,32 +31,6 @@ def _admin_session():
         return {'err_msg': 'ACCESS DENIED.'}, FORBIDDEN
 
 
-# Route for changing a listings status.
-@admin.route('/set-status/<id>/<status>', methods=['PUT'])
-def action_on_listing(id: int, status: str):
-    """Route accepts a listing:
-
-    NOTE: must be in admin session.
-    """
-    response = dict()
-
-    # Valid status:
-    if status in LISTING_STATUSES:
-        listing = ListingsModel.query.get(id)
-        listing.status = status
-        db.session.commit()
-
-        response['listing'] = listing.to_dict()
-        code = OK
-
-    # Invalid status:
-    else:
-        response['err_msg'] = 'Invalid status'
-        code = BAD_REQUEST
-
-    return response, code
-
-
 # Route for (un)starring listings.
 @admin.route('star-listing/<listing_id>', methods=['PUT'])
 def star_listing(listing_id: int):
@@ -129,7 +103,6 @@ def edit_listing(id: int) -> None:
                 t = Listings_TagsModel(l_id=id, t_id=t_id)
                 db.session.add(t)
 
-
         # Courses:
         courses = data['su_courses']
         c_ids = []
@@ -137,8 +110,10 @@ def edit_listing(id: int) -> None:
             course = course.split(' - ')[0]
             c = CoursesModel.query.filter_by(course_num=course).first()
             c_ids.append(c.id)
-        
-        courses_in_db = Listings_CoursesModel.query.filter_by(listing_id=id).all()
+
+        courses_in_db = Listings_CoursesModel.query.filter_by(
+            listing_id=id).all()
+
         # Clear Courses
         for course in courses_in_db:
             if course.course_id not in c_ids:
@@ -149,7 +124,7 @@ def edit_listing(id: int) -> None:
             if c_id not in [c.course_id for c in courses_in_db]:
                 c = Listings_CoursesModel(l_id=id, c_id=c_id)
                 db.session.add(c)
-        
+
         # Update the database.
         db.session.commit()
         response['listing'] = listing.to_dict()
@@ -181,6 +156,22 @@ def get_all_courses():
     return response, OK
 
 
+# Route for getting all tags
+@admin.route('get-all-tags', methods=['GET'])
+def get_all_tags():
+    """
+    Admin route for receiving all tags
+    """
+    response = dict()
+    tags = []
+
+    for tag in TagsModel.query.all():
+        tags.append(tag.tag_title)
+
+    response['tags'] = tags
+    return response, OK
+
+
 # Route for getting all messages
 @admin.route('get-messages/<message_filter>', methods=['GET'])
 def get_messages(message_filter: str = 'all'):
@@ -194,7 +185,7 @@ def get_messages(message_filter: str = 'all'):
 
     # For querying all messages:
     if message_filter == 'all':
-        messages = ContactFormMessage.query.all()
+        messages = ContactFormMessage.query.order_by(ContactFormMessage.was_seen == True).all()
 
     # For querying just messages labelled as unseen.
     elif message_filter == 'unseen':
@@ -268,6 +259,30 @@ def seen_message(message_id: int):
         message.was_seen = True
         db.session.commit()
         response['message'] = message.to_dict()
+        code = OK
+
+    # Otherwise, return an error message:
+    else:
+        response['err_msg'] = f'Message with id {message_id}\
+                                not found in database'
+        code = BAD_REQUEST
+
+    return response, code
+
+
+@admin.route('delete_message/<message_id>', methods=['DELETE'])
+def delete_message(message_id: int):
+    """Delete message from database
+    """
+    response = dict()
+
+    # Check if message is in database, if so delete message
+    if message := ContactFormMessage.query.filter_by(id=message_id).first():
+
+        db.session.delete(message)
+        db.session.commit()
+        response['success_msg'] = f'Message with id {message_id}\
+                                removed from database'
         code = OK
 
     # Otherwise, return an error message:
