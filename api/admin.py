@@ -184,7 +184,7 @@ def get_messages(message_filter: str = 'all'):
 
     # For querying all messages:
     if message_filter == 'all':
-        messages = ContactFormMessage.query.all()
+        messages = ContactFormMessage.query.order_by(ContactFormMessage.was_seen == True).all()
 
     # For querying just messages labelled as unseen.
     elif message_filter == 'unseen':

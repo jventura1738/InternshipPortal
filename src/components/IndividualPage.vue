@@ -1,6 +1,6 @@
 <template>
   <div
-    class="shadow-xl border-2 rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2 m-auto w-1/2 mt-12"
+    class="relative shadow-xl border-2 rounded-xl px-8 pt-6 pb-8 mb-4 flex flex-col my-2 mx-auto my-auto w-1/2 mt-12"
   >
     <div class="text-center mb-12 mt-4">
       <div class="text-3xl font-extrabold">{{ position }}</div>
@@ -8,31 +8,71 @@
     <div class="text-justify mb-12">
       <div class="text-lg p-2">
         <span class="font-bold"> Minimum Qualifications: </span
-        >{{ min_qualifications }}
+        >
+        <ul class="list-none">
+          <li>{{ min_qualifications }}</li>
+        </ul>
       </div>
       <div class="text-lg p-2">
-        <span class="font-bold"> Prefered Qualifications: </span
-        >{{ pref_qualifications }}
+        <span class="font-bold"> Preferred Qualifications: </span
+        >
+        
+        <ul class="list-none">
+          <li>{{ pref_qualifications }}</li>
+        </ul>
       </div>
       <div class="text-lg p-2">
         <span class="font-bold"> Position Responsibilities: </span
-        >{{ pos_responsibility }}
+        >
+        
+        <ul class="list-none">
+          <li>{{ pos_responsibility }}</li>
+        </ul>
       </div>
       <div v-if="additional_info">
         <div class="text-lg p-2">
           <span class="font-bold"> Additional Information: </span
-          >{{ additional_info }}
+          >
+          
+          <ul class="list-none">
+            <li>{{ additional_info }}</li>
+          </ul>
         </div>
       </div>
       <div class="text-lg p-2">
-        <span class="font-bold"> Duration: </span>{{ duration }} weeks
+        <span class="font-bold"> Position Duration: </span
+        >
+        
+        <ul class="list-none">
+          <li>{{ duration }} weeks</li>
+        </ul>
       </div>
-      <div class="text-lg p-2">
-        <span class="font-bold"> Application Open Date: </span>{{ app_open }}
+      <div class="text-lg text-center font-bold p-2 pt-5">
+        Application Dates  
       </div>
-      <div class="text-lg p-2">
-        <span class="font-bold"> Application Close Date: </span>{{ app_close }}
+      <div class="text-lg text-center p-2">
+        <span class="font-bold"> Open: </span>{{ app_open }}
+        <span class="font-bold pl-3"> Close: </span>{{ app_close }}
       </div>
+    </div>
+    <div class="">
+      <button class="absolute bottom-9 left-9 " @click="toBrowsePage">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="36"
+            height="36"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-arrow-left"
+          >
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
     </div>
     <div v-if="app_link != null" class="mx-auto">
       <a :href="app_link" @click="incrementApplications">
@@ -45,7 +85,7 @@
     </div>
     <div v-if="app_link == null" class="mx-auto">
       <button
-        class="bg-primary hover:bg-primaryOffset text-white font-bold py-2 px-4 rounded w-full cursor-not-allowed"
+        class="bg-gray-300 text-white font-bold py-2 px-4 rounded w-full cursor-not-allowed"
         disabled
       >
         No Application Link
@@ -121,6 +161,11 @@ export default {
           console.log(err);
         });
     }
+
+    function toBrowsePage() {
+            window.location.href = "/browse";
+    }
+    
     return {
       id,
       position,
@@ -132,6 +177,7 @@ export default {
       app_open,
       app_close,
       app_link,
+      toBrowsePage,
       incrementApplications,
     };
   },

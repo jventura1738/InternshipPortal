@@ -1,14 +1,14 @@
 <template>
     <section>
         <div class="pt-28 pb-20 px-10 mx-auto my-auto">
-            <div class="container shadow-md bg-gray-100 mx-auto my-auto px-10 pt-10 pb-10 text-left rounded-lg">
+            <div class="container w-3/5 shadow-md bg-gray-100 mx-auto my-auto px-10 pt-10 pb-10 text-left rounded-lg">
            
         
                 <div class="block uppercase font-bold text-gray-500">
-                    <div class="block uppercase font-bold text-gray-500">Name: </div>
+                    <div class="block uppercase font-bold text-black">Name: </div>
                     <svg 
                   xmlns="http://www.w3.org/2000/svg" 
-                  class="float-right cursor-pointer w-4 h-4 rounded-md hover:bg-gray-400" 
+                  class="float-right cursor-pointer w-5 h-5 rounded-sm hover:bg-gray-400" 
                   @click="deleteMessage(id)"
                   viewBox="0 0 24 24">
                   <path d="M3 6v18h18v-18h-18zm5 14c0 
@@ -19,25 +19,25 @@
                   </svg>
                 </div>
 
-                    <h1 class="block text-sm font-medium text-gray-700">
+                    <h1 class="block font-large text-gray-700">
                             {{ name }}
                     </h1>
                 
-                <div class="block uppercase font-bold text-gray-500">Email: </div>
-                    <h2 class="block text-sm font-medium text-gray-700 pb-8">
+                <div class="block uppercase font-bold text-black">Email: </div>
+                    <h2 class="block font-large text-gray-700 pb-8">
                             {{ email }}
                     </h2>
                 
-                <div class="block uppercase font-bold text-gray-500 pb-1">Message: 
+                <div class="block uppercase font-bold text-black pb-1">Message: 
                 </div>
                     <div class="container bg-white mx-auto my-auto px-10 py-24 pt-10 pb-52 text-left rounded-lg">           
-                    <p class="block text-sm font-medium text-gray-700 text-left">
+                    <p class="block font-large text-gray-700 text-left">
                             {{ message }}
                     </p>
                     </div>   
                 
                 <div class="pt-5">
-                 <button class="inline-flex items-center block uppercase text-gray-500 font-bold bg-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-100 rounded text-base mt-4 md:mt-0" @click="toInboxPage">Back</button>   
+                 <button class="inline-flex items-center block uppercase text-black font-bold bg-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-100 rounded text-base mt-4 md:mt-0" @click="toInboxPage">Back</button>   
                 </div>
             </div>
 

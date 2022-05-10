@@ -1,22 +1,22 @@
 <template>
-  <div class="sm:items-center sm:flex sm:justify-between mx-48 mt-12">
+  <div class="sm:items-center sm:flex sm:justify-center space-x-16 mx-48 mt-12">
+    
     <form action="" class="flex mt-2 sm:mt-0">
-      <div>
+      <div class="">
         <InboxFilterDropdown :changeFilter="updateFilter" />
       </div>
     </form>
-  </div>
-  <div class="mt-10 flex justify-center items-center">
-    <div class="pt-2 relative mx-auto text-gray-600">
+    <div class="flex justify-center items-center">
+    <div class="relative pt-10 mx-auto text-gray-600">
       <input
-        class="border-2 border-gray-300 bg-white h-10 w-72 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+        class="border-2 border-gray-300 bg-white h-10 w-72 px-5 rounded-lg text-sm focus:outline-none"
         type="text"
         name="search"
         :placeholder="`Search by ${filterValue}`"
         v-model="searchTerm"
         @input="filterMessages"
       />
-      <button type="submit" class="absolute right-0 top-0 mt-5 mr-4">
+      <button type="submit" class="absolute right-0 top-8 mt-5 mr-4">
         <svg
           class="text-gray-600 h-4 w-4 fill-current"
           xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,9 @@
         </svg>
       </button>
     </div>
+    </div>
   </div>
+  
   <div class="items-center">
     <div class="mt-14">
       <ContactInbox :messages="filtered_messages" />
