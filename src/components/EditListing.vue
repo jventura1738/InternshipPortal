@@ -200,6 +200,26 @@
           </div>
         </label>
       </div>
+      <div v-if="status == 'pending'" class="flex items-center justify-center w-full mb-12">
+        <label 
+          for="toogleA"
+          class="flex items-center cursor-pointer"
+        >
+          <!-- toggle -->
+          <div class="relative">
+            <!-- input -->
+            <input id="toogleA" type="checkbox" class="sr-only" @click="set_active"/>
+            <!-- line -->
+            <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+            <!-- dot -->
+            <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+          </div>
+          <!-- label -->
+          <div class="ml-3 text-gray-700 font-medium">
+            Activate Listing
+          </div>
+        </label>
+      </div>
       <button
         type="button"
         class="bg-primary hover:bg-primaryOffset text-white font-bold py-2 px-4 w-1/3 m-auto rounded flex justify-center items-center"
@@ -245,6 +265,8 @@ export default {
     const show_modal = ref(false);
     const modal_title = ref("");
     const modal_message = ref("");
+    const pending = ref("");
+    const status = ref("");
 
     function formatDate(dateToFormat) {
       let dateToReturn = "";
@@ -327,7 +349,15 @@ export default {
       console.log(courses_on_listing.value);
       status.value = l.status == "active" ? true : false;
     });
-
+    async function set_active(){
+      if (pending.value == "pending"){
+        pending.value = "active"
+        console.log(pending.value)
+      }else{
+        pending.value = "pending"
+        console.log(pending.value)
+      }
+    }
     // TODO: TEST THIS THOROUGHLY!!!
     // MAKE SURE TO CATCH EDGE CASES
     async function updateListing() {

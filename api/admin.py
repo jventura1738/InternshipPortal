@@ -113,6 +113,7 @@ def edit_listing(id: int) -> None:
 
         courses_in_db = Listings_CoursesModel.query.filter_by(
             listing_id=id).all()
+
         # Clear Courses
         for course in courses_in_db:
             if course.course_id not in c_ids:
