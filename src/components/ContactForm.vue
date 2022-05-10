@@ -93,35 +93,57 @@ export default {
     const modal_title = ref("");
     const modal_message = ref("");
 
+    const validateEmail = (email) => {
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+    };
+
     async function submitForm() {
       const toSend = {
         name: name.value,
         email: email.value,
         message: message.value,
       };
-      await fetch(`${process.env.SERVER_URL}/contact-submit`, {
-        method: "POST",
-        mode: "cors",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(toSend),
-      }).then((res) => {
-        if (res.status === 200) {
-          name.value = "";
-          email.value = "";
-          message.value = "";
-          show_modal.value = true;
-          modal_title.value = "Submit Successful!";
-          modal_message.value = "You successfully submitted the message.";
-        } else {
-          show_modal.value = true;
-          modal_title.value = "Error!";
-          modal_message.value =
-            "An error occurred  while submitting. Please try again.";
-        }
-      });
+
+      if (validateEmail(email.value)) {
+        await fetch(`${process.env.SERVER_URL}/contact-submit`, {
+          method: "POST",
+          mode: "cors",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(toSend),
+        }).then((res) => {
+          if (res.status === 200) {
+            name.value = "";
+            email.value = "";
+            message.value = "";
+            show_modal.value = true;
+            modal_title.value = "Submit Successful!";
+            modal_message.value = "You successfully submitted the message.";
+            setTimeout(() => {
+              show_modal.value = false;
+            }, 3000);
+          } else {
+            show_modal.value = true;
+            modal_title.value = "Error!";
+            modal_message.value =
+              "An error occurred  while submitting. Please try again.";
+            setTimeout(() => {
+              show_modal.value = false;
+            }, 3000);
+          }
+        });
+      } else {
+        show_modal.value = true;
+        modal_title.value = "Error";
+        modal_message.value = "Email provided is not valid. Please try again";
+        setTimeout(() => {
+          show_modal.value = false;
+        }, 3000);
+      }
     }
     return {
       name,

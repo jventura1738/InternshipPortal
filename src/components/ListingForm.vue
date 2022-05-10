@@ -1,5 +1,5 @@
 <template>
-  <div id="listing-form">
+  <div id="listing-form" class="listing-form">
     <div class="p-5 mb-24">
       <div class="mx-4 p-4">
         <div class="flex items-center">
@@ -222,6 +222,11 @@
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
         </button>
+        <Modal
+          v-if="show_modal"
+          :ModalTitleProp="modal_title"
+          :ModalMessageProp="modal_message"
+        />
       </div>
     </div>
   </div>
@@ -233,6 +238,7 @@ import General from "./steps/General.vue";
 import Specifications from "./steps/Specifications.vue";
 import Review from "./steps/Review.vue";
 import Confirm from "./steps/Confirm.vue";
+import Modal from "../components/Modal.vue";
 export default {
   name: "ListingForm",
   components: {
@@ -240,6 +246,7 @@ export default {
     Specifications,
     Review,
     Confirm,
+    Modal,
   },
   setup() {
     // TODO: This needs some MAJOR refactoring, these can be made into objects!
@@ -268,28 +275,69 @@ export default {
     const app_open = ref("");
     const app_close = ref("");
     const applicationLink = ref("");
+    const show_modal = ref(false);
+    const modal_title = ref("");
+    const modal_message = ref("");
 
     function nextSection() {
       if (
         isGeneralHidden.value == false &&
         isSpecificationsHidden.value == true
       ) {
-        isGeneralHidden.value = true;
-        isSpecificationsHidden.value = false;
-        stepIndex.value = 1;
-        generalToSpecifications.value = "border-red-600 bg-red-600 text-white";
-        specificationsText.value = "text-red-600";
+        if (
+          clientName.value != "" &&
+          clientAddress.value != "" &&
+          clientCity.value != "" &&
+          clientState.value != "" &&
+          clientZip.value != ""
+        ) {
+          isGeneralHidden.value = true;
+          isSpecificationsHidden.value = false;
+          stepIndex.value = 1;
+          generalToSpecifications.value =
+            "border-red-600 bg-red-600 text-white";
+          specificationsText.value = "text-red-600";
+        } else {
+          // Modal
+          show_modal.value = true;
+          modal_title.value = "Missing Information";
+          modal_message.value =
+            "Please fill out all required fields before proceeding.";
+          setTimeout(() => {
+            show_modal.value = false;
+          }, 3000);
+        }
       }
       // If Specifications to Review
       else if (
         isSpecificationsHidden.value == false &&
         isReviewHidden.value == true
       ) {
-        isSpecificationsHidden.value = true;
-        isReviewHidden.value = false;
-        stepIndex.value = 2;
-        specificationsToReview.value = "border-red-600 bg-red-600 text-white";
-        reviewText.value = "text-red-600";
+        if (
+          positionTitle.value != "" &&
+          minQualifications.value != "" &&
+          prefQualifications.value != "" &&
+          positionResponsibilities.value != "" &&
+          duration.value != "" &&
+          app_open.value != "" &&
+          app_close.value != ""
+        ) {
+          isSpecificationsHidden.value = true;
+          isReviewHidden.value = false;
+          stepIndex.value = 2;
+          specificationsToReview.value = "border-red-600 bg-red-600 text-white";
+          reviewText.value = "text-red-600";
+        } else {
+          // Modal
+          show_modal.value = true;
+          modal_title.value = "Missing Information";
+          modal_message.value =
+            "Please fill out all required fields before proceeding.";
+          setTimeout(() => {
+            show_modal.value = false;
+          }, 3000);
+        }
+        // If Review to Confirm
       } else if (
         isReviewHidden.value == false &&
         isConfirmHidden.value == true
@@ -300,7 +348,7 @@ export default {
         reviewToConfirm.value = "border-red-600 bg-red-600 text-white";
         confirmText.value = "text-red-600";
       }
-      this.window.scrollTo(0, 0);
+      window.scrollTo(0, 0);
     }
 
     function previousSection() {
@@ -332,7 +380,7 @@ export default {
         reviewToConfirm.value = "border-gray-300";
         confirmText.value = "text-gray-500";
       }
-      this.window.scrollTo(0, 0);
+      window.scrollTo(0, 0);
     }
     function updateName(newName) {
       clientName.value = newName;
@@ -438,6 +486,9 @@ export default {
       app_open,
       app_close,
       applicationLink,
+      show_modal,
+      modal_title,
+      modal_message,
       nextSection,
       previousSection,
       updateName,
