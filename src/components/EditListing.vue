@@ -200,24 +200,29 @@
           </div>
         </label>
       </div>
-      <div v-if="status == 'pending'" class="flex items-center justify-center w-full mb-12">
-        <label 
-          for="toogleA"
-          class="flex items-center cursor-pointer"
-        >
+      <div
+        v-if="statusString == 'pending'"
+        class="flex items-center justify-center w-full mb-12"
+      >
+        <label for="toogleA" class="flex items-center cursor-pointer">
           <!-- toggle -->
           <div class="relative">
             <!-- input -->
-            <input id="toogleA" type="checkbox" class="sr-only" @click="set_active"/>
+            <input
+              id="toogleA"
+              type="checkbox"
+              class="sr-only"
+              @click="set_active"
+            />
             <!-- line -->
             <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
             <!-- dot -->
-            <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+            <div
+              class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"
+            ></div>
           </div>
           <!-- label -->
-          <div class="ml-3 text-gray-700 font-medium">
-            Activate Listing
-          </div>
+          <div class="ml-3 text-gray-700 font-medium">Activate Listing</div>
         </label>
       </div>
       <button
@@ -266,7 +271,7 @@ export default {
     const modal_title = ref("");
     const modal_message = ref("");
     const pending = ref("");
-    const status = ref("");
+    const statusString = ref("");
 
     function formatDate(dateToFormat) {
       let dateToReturn = "";
@@ -347,15 +352,15 @@ export default {
       courses_on_listing.value = listing.courses;
       console.log(tags_on_listing.value);
       console.log(courses_on_listing.value);
-      status.value = l.status == "active" ? true : false;
+      statusString.value = l.status == "active" ? true : false;
     });
-    async function set_active(){
-      if (pending.value == "pending"){
-        pending.value = "active"
-        console.log(pending.value)
-      }else{
-        pending.value = "pending"
-        console.log(pending.value)
+    async function set_active() {
+      if (pending.value == "pending") {
+        pending.value = "active";
+        console.log(pending.value);
+      } else {
+        pending.value = "pending";
+        console.log(pending.value);
       }
     }
     // TODO: TEST THIS THOROUGHLY!!!
@@ -416,6 +421,7 @@ export default {
       app_close,
       app_link,
       status,
+      statusString,
       su_courses,
       selected_courses,
       selected_tags,
