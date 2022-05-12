@@ -115,7 +115,7 @@
           class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400 flex flex-wrap items-center text-base justify-center"
         >
           <a
-            class="mr-5 py-1 px-3"
+            class="mr-5 py-1 px-3 hover:bg-gray-200 rounded-lg hover:border-0 hover:text-base"
             href="/browse"
             :class="
               active == 'Browse'
@@ -125,7 +125,7 @@
             >Browse</a
           >
           <a
-            class="mr-5 py-1 px-3"
+            class="mr-5 py-1 px-3 relative hover:bg-gray-200 rounded-lg hover:border-0 hover:text-base"
             href="/contact"
             :class="
               active == 'Contact'
@@ -133,6 +133,11 @@
                 : 'hover:text-gray-900'
             "
             >Contact</a
+          >
+          <a
+            class="mr-5 py-1 px-3 absolute right-0 hover:bg-primary hover:text-white rounded-lg p-4"
+            href="/login"
+            >Admin Login</a
           >
         </nav>
       </div>
