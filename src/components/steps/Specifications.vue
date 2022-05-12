@@ -10,7 +10,7 @@
             class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-internship-position-title"
           >
-            Position Title
+            Position Title <span class="text-red-600">*</span>
           </label>
           <input
             class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6"
@@ -27,7 +27,7 @@
             class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
             for="grid-minimum-qualifications"
           >
-            Minimum Qualifications
+            Minimum Qualifications <span class="text-red-600">*</span>
           </label>
           <textarea
             class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 resize-none"
@@ -49,7 +49,7 @@
             class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
             for="grid-preferred-qualifications"
           >
-            Preferred Qualifications
+            Preferred Qualifications <span class="text-red-600">*</span>
           </label>
           <textarea
             class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 resize-none"
@@ -71,7 +71,7 @@
             class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
             for="grid-position-responsibilities"
           >
-            Position Responsibilities
+            Position Responsibilities <span class="text-red-600">*</span>
           </label>
           <textarea
             class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 resize-none"
@@ -110,7 +110,7 @@
             class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-duration"
           >
-            Duration (in weeks)
+            Duration (in weeks) <span class="text-red-600">*</span>
           </label>
           <input
             class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6 resize-none"
@@ -127,7 +127,7 @@
             class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-app-open"
           >
-            Application Open Date
+            Application Open Date <span class="text-red-600">*</span>
           </label>
           <input
             class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6 resize-none"
@@ -144,7 +144,7 @@
             class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-app-close"
           >
-            Application Close Date
+            Application Close Date <span class="text-red-600">*</span>
           </label>
           <input
             class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6 resize-none"
@@ -172,6 +172,9 @@
             v-model="app_link"
             @change="appLinkChange"
           />
+        </div>
+        <div class="px-3">
+          <span class="text-red-600">*</span> Required fields
         </div>
       </div>
     </div>

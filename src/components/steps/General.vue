@@ -2,49 +2,18 @@
 <template>
   <form>
     <div
-      class="
-        shadow-xl
-        border-2
-        rounded
-        px-8
-        pt-6
-        pb-8
-        mb-4
-        flex flex-col
-        my-2
-        m-auto
-        w-3/4
-      "
+      class="shadow-xl border-2 rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2 m-auto w-3/4"
     >
       <div class="-mx-3 md:flex mb-6">
         <div class="md:w-1/2 px-3 mb-6 md:mb-0">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-              mt-6
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-company-name"
           >
-            Company Name
+            Company Name <span class="text-red-600">*</span>
           </label>
           <input
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              mb-3
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3"
             @change="nameChange"
             required=""
             id="grid-company-name"
@@ -55,31 +24,14 @@
         </div>
         <div class="md:w-1/2 px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
             for="grid-address"
           >
-            Company HQ Address
+            Company HQ Address <span class="text-red-600">*</span>
           </label>
           <!-- Make this autocomplete properly -->
           <input
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
             @change="addressChange"
             required
             id="grid-address"
@@ -92,30 +44,13 @@
       <div class="-mx-3 md:flex mb-6">
         <div class="md:w-full px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
             for="grid-city"
           >
-            City
+            City <span class="text-red-600">*</span>
           </label>
           <input
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
             @change="cityChange"
             required=""
             id="grid-city"
@@ -128,32 +63,14 @@
       <div class="-mx-3 md:flex mb-2">
         <div class="md:w-1/2 px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
             for="grid-state"
           >
-            State
+            State <span class="text-red-600">*</span>
           </label>
           <div class="relative">
             <select
-              class="
-                block
-                appearance-none
-                w-full
-                bg-white
-                border border-grey-lighter
-                text-grey-darker
-                py-3
-                px-4
-                pr-8
-                rounded
-              "
+              class="block appearance-none w-full bg-white border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
               @change="stateChange"
               required=""
               id="grid-state"
@@ -168,32 +85,13 @@
         </div>
         <div class="md:w-1/2 px-3">
           <label
-            class="
-              block
-              uppercase
-              tracking-wide
-              text-grey-darker text-xs
-              font-bold
-              mb-2
-              mt-6
-            "
+            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2 mt-6"
             for="grid-zip"
           >
-            Zip
+            Zip <span class="text-red-600">*</span>
           </label>
           <input
-            class="
-              appearance-none
-              block
-              w-full
-              bg-grey-lighter
-              text-grey-darker
-              border border-grey-lighter
-              rounded
-              py-3
-              px-4
-              mb-6
-            "
+            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-6"
             @change="zipChange"
             required=""
             id="grid-zip"
@@ -201,6 +99,9 @@
             placeholder="12345"
             v-model="companyZip"
           />
+        </div>
+        <div class="px-3">
+          <span class="text-red-600">*</span> Required fields
         </div>
       </div>
     </div>
@@ -503,7 +404,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 select:invalid {
   color: rgba(156, 163, 175, 1);
 }
