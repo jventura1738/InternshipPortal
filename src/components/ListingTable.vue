@@ -109,18 +109,18 @@
                   </td>
                   <td class="px-4 py-4 whitespace-nowrap">
                     <div class="relative">
-                    <div class="center text-white font-semibold text-base">
-                    <span
-                      class="px-2 inline-flex text-xs text-white leading-5 font-semibold rounded-full bg-red-800"
-                    >
-                      Open: {{ listing[1].listing.app_open }}
-                    </span>
-                    </div>
-                    <span
-                      class="px-2 inline-flex text-xs text-white leading-5 font-semibold rounded-full bg-red-800"
-                    >
-                      Close: {{ listing[1].listing.app_close }}
-                    </span>
+                      <div class="center text-white font-semibold text-base">
+                        <span
+                          class="px-2 inline-flex text-xs text-white leading-5 font-semibold rounded-full bg-red-800"
+                        >
+                          Open: {{ listing[1].listing.app_open }}
+                        </span>
+                      </div>
+                      <span
+                        class="px-2 inline-flex text-xs text-white leading-5 font-semibold rounded-full bg-red-800"
+                      >
+                        Close: {{ listing[1].listing.app_close }}
+                      </span>
                     </div>
                   </td>
                 </tr>
@@ -142,6 +142,7 @@ export default {
       statistic: "views",
     };
     async function viewListing(id) {
+      console.log(id);
       await fetch(`${process.env.SERVER_URL}/modify-statistics/${id}`, {
         method: "PUT",
         mode: "cors",

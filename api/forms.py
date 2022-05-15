@@ -12,7 +12,7 @@ For now just store API in the forms.py file, this will change later.
 import random
 import string
 from flask import Blueprint, request
-from .models import ContactFormMessage, db, ClientsModel, \
+from .models import ContactFormMessage, ListingsStatisticsModel, db, ClientsModel, \
     ListingsModel, UsersModel
 from .models import ResetTokensModel
 from .constants import OK, FORBIDDEN, BAD_REQUEST
@@ -78,6 +78,7 @@ def listing_submit():
     duration = data['duration']
     app_open = data['app_open']
     app_close = data['app_close']
+    app_link = data['app_link']
 
     # Add client to database:
     client_full_address = f'{client_address}, {client_city}, {client_state},\
@@ -91,10 +92,17 @@ def listing_submit():
     listing_client_id = tmp.id
     listing = ListingsModel(listing_client_id, position_title,
                             pos_responsibility, min_qualifications,
-                            pref_qualifications, additional_info,
+                            pref_qualifications, additional_info=additional_info,
                             status='pending', duration=duration,
-                            app_open=app_open, app_close=app_close)
+                            app_open=app_open, app_close=app_close, app_link=app_link)
     db.session.add(listing)
+    db.session.commit()
+
+    listingFromDB = ListingsModel.query.filter_by(client_id=listing_client_id, position=position_title, pos_responsibility=pos_responsibility, min_qualifications=min_qualifications, pref_qualifications=pref_qualifications, additional_info=additional_info).first()
+    lid = listingFromDB.id
+
+    listingStats = ListingsStatisticsModel(lid, 0, 0);
+    db.session.add(listingStats)
     db.session.commit()
 
     return {}, OK
