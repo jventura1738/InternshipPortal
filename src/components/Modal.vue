@@ -62,7 +62,7 @@
               <button
                 type="button"
                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primaryOffset focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                @click="open = false"
+                @click="onClose"
               >
                 Ok
               </button>
@@ -94,15 +94,23 @@ export default {
     TransitionRoot,
     ExclamationIcon,
   },
-  props: ["ModalTitleProp", "ModalMessageProp"],
+  props: ["ModalCloseCallback", "ModalTitleProp", "ModalMessageProp"],
   setup(props) {
     const open = ref(true);
-    const { ModalTitleProp, ModalMessageProp } = toRefs(props);
+    const { ModalTitleProp, ModalMessageProp, ModalCloseCallback } =
+      toRefs(props);
     const ModalTitle = ref(ModalTitleProp);
     const ModalMessage = ref(ModalMessageProp);
+    const cb = ref(ModalCloseCallback);
+
+    function onClose() {
+      open.value = false;
+      cb.value();
+    }
 
     return {
       open,
+      onClose,
       ModalTitle,
       ModalMessage,
     };

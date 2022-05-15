@@ -159,7 +159,7 @@ class ListingsModel(db.Model, SerializerMixin):
                  pos_responsibility: str = 'NA',
                  min_qualifications: str = 'NA',
                  pref_qualifications: str = 'NA',
-                 additional_info: str = None, status: str = DEFAULT,
+                 additional_info: str = 'NA', status: str = DEFAULT,
                  starred: bool = False, duration: int = 0,
                  app_open: str = None, app_close: str = None, app_link: str = None):
         self.client_id = client_id

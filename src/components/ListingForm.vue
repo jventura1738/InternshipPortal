@@ -225,6 +225,7 @@
         <Modal
           v-if="show_modal"
           :ModalTitleProp="modal_title"
+          :ModalCloseCallback="closeModal"
           :ModalMessageProp="modal_message"
         />
       </div>
@@ -249,7 +250,6 @@ export default {
     Modal,
   },
   setup() {
-    // TODO: This needs some MAJOR refactoring, these can be made into objects!
     const isGeneralHidden = ref(false);
     const isSpecificationsHidden = ref(true);
     const isReviewHidden = ref(true);
@@ -279,6 +279,10 @@ export default {
     const modal_title = ref("");
     const modal_message = ref("");
 
+    function closeModal() {
+      show_modal = false;
+    }
+
     function nextSection() {
       if (
         isGeneralHidden.value == false &&
@@ -298,18 +302,12 @@ export default {
             "border-red-600 bg-red-600 text-white";
           specificationsText.value = "text-red-600";
         } else {
-          // Modal
           show_modal.value = true;
           modal_title.value = "Missing Information";
           modal_message.value =
             "Please fill out all required fields before proceeding.";
-          setTimeout(() => {
-            show_modal.value = false;
-          }, 3000);
         }
-      }
-      // If Specifications to Review
-      else if (
+      } else if (
         isSpecificationsHidden.value == false &&
         isReviewHidden.value == true
       ) {
@@ -328,16 +326,11 @@ export default {
           specificationsToReview.value = "border-red-600 bg-red-600 text-white";
           reviewText.value = "text-red-600";
         } else {
-          // Modal
           show_modal.value = true;
           modal_title.value = "Missing Information";
           modal_message.value =
             "Please fill out all required fields before proceeding.";
-          setTimeout(() => {
-            show_modal.value = false;
-          }, 3000);
         }
-        // If Review to Confirm
       } else if (
         isReviewHidden.value == false &&
         isConfirmHidden.value == true
@@ -451,12 +444,18 @@ export default {
         body: JSON.stringify(body),
       }).then((res) => {
         if (res.status === 200) {
-          // Make modal and then on modal exit, redirect to homepage
-          alert("Successful listing submission");
-          window.location.href = "/";
+          modal_title.value = "Success!";
+          modal_message.value =
+            "Your listing has been submitted. An administrator will review it shortly.";
+          show_modal.value = true;
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 5000);
         } else {
-          // Make modal for failure
-          alert("Failed");
+          modal_title.value = "Failed!";
+          modal_message.value =
+            "The listing entry has failed. Please try again.";
+          show_modal.value = true;
         }
       });
     }
@@ -506,6 +505,7 @@ export default {
       updateAppClose,
       updateApplicationLink,
       submitListing,
+      closeModal,
     };
   },
 };
