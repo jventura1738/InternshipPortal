@@ -110,7 +110,6 @@
 
 <script>
 import { ref, toRefs } from "vue";
-// TODO: Change input outline colors
 export default {
   name: "General",
   props: {

@@ -250,7 +250,6 @@ export default {
     Modal,
   },
   setup() {
-    // TODO: This needs some MAJOR refactoring, these can be made into objects!
     const isGeneralHidden = ref(false);
     const isSpecificationsHidden = ref(true);
     const isReviewHidden = ref(true);
@@ -303,15 +302,12 @@ export default {
             "border-red-600 bg-red-600 text-white";
           specificationsText.value = "text-red-600";
         } else {
-          // Modal
           show_modal.value = true;
           modal_title.value = "Missing Information";
           modal_message.value =
             "Please fill out all required fields before proceeding.";
         }
-      }
-      // If Specifications to Review
-      else if (
+      } else if (
         isSpecificationsHidden.value == false &&
         isReviewHidden.value == true
       ) {
@@ -330,13 +326,11 @@ export default {
           specificationsToReview.value = "border-red-600 bg-red-600 text-white";
           reviewText.value = "text-red-600";
         } else {
-          // Modal
           show_modal.value = true;
           modal_title.value = "Missing Information";
           modal_message.value =
             "Please fill out all required fields before proceeding.";
         }
-        // If Review to Confirm
       } else if (
         isReviewHidden.value == false &&
         isConfirmHidden.value == true

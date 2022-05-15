@@ -339,7 +339,6 @@ export default {
       let all_tags = await tag_result.json();
       tags.value = all_tags.tags;
 
-      // TODO: NEEDS REFACTORING
       let l = listing.listing;
       console.log(listing);
       id.value = l.id;
@@ -368,8 +367,6 @@ export default {
         console.log(pending.value);
       }
     }
-    // TODO: TEST THIS THOROUGHLY!!!
-    // MAKE SURE TO CATCH EDGE CASES
     async function updateListing() {
       for (let i = 0; i < selected_courses.value.length; i++) {
         let course_num = selected_courses.value[i].split(" - ")[0];
