@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-4/5 m-auto h-screen">
+  <div class="flex flex-col w-5/6 m-auto h-screen">
     <div class="mt-20">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -9,6 +9,10 @@
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
                 <tr>
+                  <th
+                    scope="col"
+                    class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  ></th>
                   <th
                     scope="col"
                     class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -48,6 +52,19 @@
                   class="hover:bg-gray-50"
                   @click="viewListing(listing[1].listing.id)"
                 >
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <div v-if="listing[1].listing.starred">
+                      <svg
+                        class="block h-6 w-6 fill-current text-yellow-300"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                        />
+                      </svg>
+                    </div>
+                  </td>
                   <td class="px-4 py-4 whitespace-nowrap">
                     <div class="flex items-center">
                       <div>
