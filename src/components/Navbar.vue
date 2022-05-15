@@ -27,6 +27,11 @@
             "
             >Listings</a
           >
+          <a
+            class="mr-5 py-1 px-3 bg-primary text-white rounded hover:bg-primaryOffset focus:outline-none border-0 text-base cursor-pointer"
+            @click="copyInviteLink"
+            >Copy Invite Link</a
+          >
         </nav>
         <div>
           <span class="relative cursor-pointer">
@@ -95,6 +100,12 @@
         </button>
       </div>
     </header>
+    <Modal
+      v-if="show_modal"
+      :ModalTitleProp="modal_title"
+      :ModalCloseCallback="closeModal"
+      :ModalMessageProp="modal_message"
+    />
   </div>
   <div v-else>
     <header class="text-gray-600 body-font shadow-xl">
@@ -147,13 +158,24 @@
 
 <script>
 import { ref, toRefs, onMounted } from "vue";
+import Modal from "./Modal.vue";
 export default {
   name: "Navbar",
   props: ["active", "isAdmin"],
+  components: {
+    Modal,
+  },
   setup(props) {
     const { active, isAdmin } = toRefs(props);
     const numMessages = ref(0);
     const numPendingListings = ref(0);
+    const show_modal = ref(false);
+    const modal_message = ref("");
+    const modal_title = ref("");
+
+    function closeModal() {
+      show_modal.value = false;
+    }
 
     onMounted(async () => {
       if (isAdmin.value == true) {
@@ -173,6 +195,17 @@ export default {
         numPendingListings.value = Object.keys(listings).length;
       }
     });
+
+    function copyInviteLink() {
+      const clipboardData = window.clipboardData || navigator.clipboard;
+
+      clipboardData.writeText(`${process.env.SERVER_URL}/insert-listing`);
+
+      modal_title.value = "Invite Link Copied!";
+      modal_message.value =
+        "You can now invite clients to insert their information to the site! The link to provide them is now in your clipboard. Just press Ctrl+V to paste it!";
+      show_modal.value = true;
+    }
 
     async function logout() {
       fetch(`${process.env.SERVER_URL}/logout`).then((res) => {
@@ -194,9 +227,14 @@ export default {
       isAdmin,
       toNotificationsPage,
       toInboxPage,
+      copyInviteLink,
       logout,
+      closeModal,
       numMessages,
       numPendingListings,
+      show_modal,
+      modal_title,
+      modal_message,
     };
   },
 };

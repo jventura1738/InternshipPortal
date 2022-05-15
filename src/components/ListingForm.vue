@@ -225,6 +225,7 @@
         <Modal
           v-if="show_modal"
           :ModalTitleProp="modal_title"
+          :ModalCloseCallback="closeModal"
           :ModalMessageProp="modal_message"
         />
       </div>
@@ -279,6 +280,10 @@ export default {
     const modal_title = ref("");
     const modal_message = ref("");
 
+    function closeModal() {
+      show_modal = false;
+    }
+
     function nextSection() {
       if (
         isGeneralHidden.value == false &&
@@ -303,9 +308,6 @@ export default {
           modal_title.value = "Missing Information";
           modal_message.value =
             "Please fill out all required fields before proceeding.";
-          setTimeout(() => {
-            show_modal.value = false;
-          }, 3000);
         }
       }
       // If Specifications to Review
@@ -333,9 +335,6 @@ export default {
           modal_title.value = "Missing Information";
           modal_message.value =
             "Please fill out all required fields before proceeding.";
-          setTimeout(() => {
-            show_modal.value = false;
-          }, 3000);
         }
         // If Review to Confirm
       } else if (
@@ -451,12 +450,18 @@ export default {
         body: JSON.stringify(body),
       }).then((res) => {
         if (res.status === 200) {
-          // Make modal and then on modal exit, redirect to homepage
-          alert("Successful listing submission");
-          window.location.href = "/";
+          modal_title.value = "Success!";
+          modal_message.value =
+            "Your listing has been submitted. An administrator will review it shortly.";
+          show_modal.value = true;
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 5000);
         } else {
-          // Make modal for failure
-          alert("Failed");
+          modal_title.value = "Failed!";
+          modal_message.value =
+            "The listing entry has failed. Please try again.";
+          show_modal.value = true;
         }
       });
     }
@@ -506,6 +511,7 @@ export default {
       updateAppClose,
       updateApplicationLink,
       submitListing,
+      closeModal,
     };
   },
 };

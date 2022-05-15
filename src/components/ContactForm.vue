@@ -68,6 +68,7 @@
             <Modal
               v-if="show_modal"
               :ModalTitleProp="modal_title"
+              :ModalCloseCallback="closeModal"
               :ModalMessageProp="modal_message"
             />
           </div>
@@ -98,6 +99,10 @@ export default {
         /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
     };
+
+    function closeModal() {
+      show_modal.value = false;
+    }
 
     async function submitForm() {
       const toSend = {
@@ -153,6 +158,7 @@ export default {
       modal_title,
       modal_message,
       submitForm,
+      closeModal,
     };
   },
 };

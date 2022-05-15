@@ -235,6 +235,7 @@
       <Modal
         v-if="show_modal"
         :ModalTitleProp="modal_title"
+        :ModalCloseCallback="closeModal"
         :ModalMessageProp="modal_message"
       />
     </div>
@@ -272,6 +273,10 @@ export default {
     const modal_message = ref("");
     const pending = ref("");
     const statusString = ref("");
+
+    function closeModal() {
+      show_modal.value = false;
+    }
 
     function formatDate(dateToFormat) {
       let dateToReturn = "";
@@ -432,6 +437,7 @@ export default {
       tags_on_listing,
       courses_on_listing,
       updateListing,
+      closeModal,
     };
   },
 };
