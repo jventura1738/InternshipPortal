@@ -356,7 +356,7 @@ export default {
       courses_on_listing.value = listing.courses;
       console.log(tags_on_listing.value);
       console.log(courses_on_listing.value);
-      statusString.value = l.status == "active" ? true : false;
+      statusString.value = l.status;
       status.value = l.status == "active" ? true : false;
     });
     async function set_active() {
