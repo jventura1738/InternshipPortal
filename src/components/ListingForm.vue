@@ -178,6 +178,12 @@
       :submitListingCallback="submitListing"
       :class="{ hidden: isConfirmHidden, '': !isConfirmHidden }"
     />
+    <Modal
+      v-if="show_modal"
+      :ModalTitleProp="modal_title"
+      :ModalCloseCallback="closeModal"
+      :ModalMessageProp="modal_message"
+    />
     <div class="flex justify-center align-center mt-4 mb-4">
       <div
         class="flex justify-center align-center mt-4 mb-4"
@@ -222,12 +228,6 @@
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
         </button>
-        <Modal
-          v-if="show_modal"
-          :ModalTitleProp="modal_title"
-          :ModalCloseCallback="closeModal"
-          :ModalMessageProp="modal_message"
-        />
       </div>
     </div>
   </div>
@@ -280,7 +280,7 @@ export default {
     const modal_message = ref("");
 
     function closeModal() {
-      show_modal = false;
+      show_modal.value = false;
     }
 
     function nextSection() {
@@ -418,6 +418,7 @@ export default {
       applicationLink.value = newLink;
     }
     async function submitListing() {
+      console.log("HERERE");
       const body = {
         client_name: clientName.value,
         client_address: clientAddress.value,
@@ -443,6 +444,7 @@ export default {
         },
         body: JSON.stringify(body),
       }).then((res) => {
+        console.log(res);
         if (res.status === 200) {
           modal_title.value = "Success!";
           modal_message.value =
