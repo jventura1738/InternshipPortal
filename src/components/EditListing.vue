@@ -357,6 +357,7 @@ export default {
       console.log(tags_on_listing.value);
       console.log(courses_on_listing.value);
       statusString.value = l.status == "active" ? true : false;
+      status.value = l.status == "active" ? true : false;
     });
     async function set_active() {
       if (pending.value == "pending") {
